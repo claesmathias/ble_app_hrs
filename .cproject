@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.cross.arm.gnu.buildArtefactType.application" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.cross.arm.gnu.buildArtefactType.application" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GmakeErrorParser" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371" name="Debug" parent="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+					<folderInfo id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371." name="/" resourcePath="">
+						<toolChain errorParsers="" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.toolchain.debug.87745061" name="ARM Mac OS X GCC (Sourcery G++ Lite)" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.toolchain.debug">
+							<option id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.debugging.level.196804060" name="Debug level" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.debugging.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.debugging.level.max" valueType="enumerated"/>
+							<option id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.target.processor.1743286284" name="Processor" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.target.processor" value="org.eclipse.cdt.cross.arm.gnu.base.option.mcpu.cortex-m0" valueType="enumerated"/>
+							<targetPlatform binaryParser="org.eclipse.cdt.core.GNU_ELF" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.platform.debug.1197402194" isAbstract="false" name="Mac OS X Platform" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.platform.debug"/>
+							<builder buildPath="${workspace_loc:/ble_app_hrs}/Debug" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.builder.debug.1729386438" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="ARM Sourcery Mac OS X GNU Make builder" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.builder.debug"/>
+							<tool command="arm-none-eabi-gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.debug.1691982133" name="ARM Sourcery Mac OS X GCC Assembler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.debug">
+								<option id="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths.556904169" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.arm.gnu.assembler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+								</option>
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input.2102170647" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input"/>
+							</tool>
+							<tool command="arm-none-eabi-gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.debug.296508565" name="ARM Sourcery Mac OS X GCC C Compiler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.debug">
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level.1370953569" name="Optimization level" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.optimization.level.none" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.include.paths.773632906" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include/boards}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include/ble/ble_services}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include/ble}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include/ble/softdevice}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Include/app_common}&quot;"/>
+								</option>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def.1850186976" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def" valueType="definedSymbols"/>
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input.905417884" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input"/>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.compiler.debug.325986914" name="ARM Sourcery Mac OS X GCC C++ Compiler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.compiler.debug">
+								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.level.1310042658" name="Optimization level" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.optimization.level.none" valueType="enumerated"/>
+							</tool>
+							<tool command="arm-none-eabi-gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.debug.1800841304" name="ARM Sourcery Mac OS X GCC C Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.debug">
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.scriptfile.1390965029" name="Script file (-T)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.scriptfile" value="/Users/claesmathias/Projects/nRF51822/ble_app_hrs/gcc_nrf51_s110.ld" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostdlibs.2038389514" name="No startup or default libs (-nostdlib)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.nostdlibs" value="false" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.link.option.libs.1106650623" name="Libraries (-l)" superClass="org.eclipse.cdt.cross.arm.gnu.c.link.option.libs" valueType="libs"/>
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.c.linker.input.1863156856" superClass="org.eclipse.cdt.cross.arm.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.linker.debug.1082976013" name="ARM Sourcery Mac OS X GCC C++ Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.linker.debug"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.archiver.base.1466862130" name="ARM Sourcery Mac OS X GCC Archiver" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.archiver.base"/>
+							<tool command="arm-none-eabi-objcopy" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createflash.debug.844921720" name="ARM Sourcery Mac OS X GNU Create Flash Image" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createflash.debug"/>
+							<tool command="arm-none-eabi-objdump" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createlisting.debug.493602267" name="ARM Sourcery Mac OS X GNU Create Listing" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createlisting.debug"/>
+							<tool command="arm-none-eabi-size" commandLinePattern="${COMMAND} ${INPUTS} ${FLAGS}" errorParsers="" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.printsize.debug.462998449" name="ARM Sourcery Mac OS X GNU Print Size" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.printsize.debug"/>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.cross.arm.gnu.buildArtefactType.application" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.cross.arm.gnu.buildArtefactType.application" description="" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259" name="Release" parent="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release">
+					<folderInfo id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259." name="/" resourcePath="">
+						<toolChain id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.toolchain.release.708277794" name="ARM Mac OS X GCC (Sourcery G++ Lite)" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.toolchain.release">
+							<option id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.debugging.level.2102025393" name="Debug level" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.option.debugging.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.debugging.level.none" valueType="enumerated"/>
+							<targetPlatform id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.platform.release.1147263629" isAbstract="false" name="Mac OS X Platform" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.platform.release"/>
+							<builder buildPath="${workspace_loc:/ble_app_hrs}/Release" id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.builder.release.350181615" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="ARM Sourcery Mac OS X GNU Make builder" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.builder.release"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.release.955478557" name="ARM Sourcery Mac OS X GCC Assembler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.release">
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input.398982065" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input"/>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.release.317676821" name="ARM Sourcery Mac OS X GCC C Compiler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.release">
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level.1764778735" name="Optimization level" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.optimization.level.size" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def.732171675" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.preprocessor.def" valueType="definedSymbols"/>
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input.466975913" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input"/>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.compiler.release.729816453" name="ARM Sourcery Mac OS X GCC C++ Compiler" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.compiler.release">
+								<option id="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.level.1160383765" name="Optimization level" superClass="org.eclipse.cdt.cross.arm.gnu.cpp.compiler.option.optimization.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.optimization.level.size" valueType="enumerated"/>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.release.322841617" name="ARM Sourcery Mac OS X GCC C Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.linker.release">
+								<inputType id="org.eclipse.cdt.cross.arm.gnu.c.linker.input.1691229081" superClass="org.eclipse.cdt.cross.arm.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.linker.release.1046137557" name="ARM Sourcery Mac OS X GCC C++ Linker" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.cpp.linker.release"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.archiver.base.579235454" name="ARM Sourcery Mac OS X GCC Archiver" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.archiver.base"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createflash.release.747926387" name="ARM Sourcery Mac OS X GNU Create Flash Image" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createflash.release"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createlisting.release.1031139848" name="ARM Sourcery Mac OS X GNU Create Listing" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.createlisting.release"/>
+							<tool id="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.printsize.release.1731091266" name="ARM Sourcery Mac OS X GNU Print Size" superClass="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.printsize.release"/>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="ble_app_hrs.org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.263731507" name="ARM Cross Target Application" projectType="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/ble_app_hrs"/>
+		</configuration>
+		<configuration configurationName="Multiple configurations">
+			<resource resourceType="PROJECT" workspacePath="/ble_app_hrs"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/ble_app_hrs"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371.;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.debug.1691982133;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input.2102170647">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259.;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.release.317676821;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input.466975913">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.debug.669673371.;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.c.compiler.debug.296508565;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.c.compiler.base.input.905417884">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.release.632931259.;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.elf.assembler.release.955478557;org.eclipse.cdt.cross.arm.gnu.sourcery.macosx.assembler.base.input.398982065">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.arm.gnu.ARM_CS_GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+</cproject>
