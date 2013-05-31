@@ -1,0 +1,33 @@
+/*********************************************************************
+*               SEGGER MICROCONTROLLER GmbH & Co KG                  *
+*       Solutions for real time microcontroller applications         *
+**********************************************************************
+*                                                                    *
+*       (c) 2011  SEGGER Microcontroller GmbH & Co KG                *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+----------------------------------------------------------------------
+Purpose : ETB support for LPC3250
+---------------------------END-OF-HEADER------------------------------
+*/
+
+/*********************************************************************
+*
+*       InitEMU
+*/
+void InitEMU(void) {
+  EMU_ETB_IsPresent = 1;    // Tells the J-Link DLL that the connected device has an ETB
+  EMU_ETM_IsPresent = 1;    // Tells the J-Link DLL that the connected device has an ETM
+  EMU_ETB_UseETB = 1;       // Make ETB usable in IDEs (e.g. IAR EWARM)
+}
+
+/*********************************************************************
+*
+*       InitTarget
+*/
+void InitTarget(void) {
+  Report("LPC3250 J-Link script");
+  JTAG_AllowTAPReset=1;             // Allow the DLL to auto-detect the JTAG chain
+}

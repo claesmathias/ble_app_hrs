@@ -1,0 +1,189 @@
+/*********************************************************************
+*               SEGGER MICROCONTROLLER GmbH & Co KG                  *
+*       Solutions for real time microcontroller applications         *
+**********************************************************************
+*                                                                    *
+*       (c) 2011  SEGGER Microcontroller GmbH & Co KG                *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+----------------------------------------------------------------------
+Purpose : J-Link script file for NXP LPC4350 device.
+          The NXP LPC4350 is a Cortex-M4 based device which has an
+          additional Cortex-M0 core inside which can be enabled.
+          This script puts the M0 in the JTAG chain if necessary.
+          Releasing the M0 from reset etc. needs to be done on the debugger side.
+---------------------------END-OF-HEADER------------------------------
+*/
+
+/*********************************************************************
+*
+*       _StoreSelDP
+*/
+void _StoreSelDP(void) {
+  JTAG_StoreIR(0xA);  // DPACC command
+  JTAG_StoreClocks(1);
+}
+
+/*********************************************************************
+*
+*       _StoreSelAP
+*/
+void _StoreSelAP(void) {
+  JTAG_StoreIR(0xB);  // APACC command
+  JTAG_StoreClocks(1);
+}
+
+/*********************************************************************
+*
+*       _StoreTriggerReadAPDPReg
+*
+*  Function description
+*    Triggers a read of an AP or DP register. Depends on the previous command (DPACC / APACC)
+*/
+int _StoreTriggerReadAPDPReg(unsigned int RegIndex) {
+  __int64 v;        // We need 35 bits: 32 data, 2 bit addr, 1 bit RnW
+  int BitPosData;
+  //
+  // Write 35 bits (32 bits data, 2 bits addr, 1 bit RnW)
+  //
+  v = 0;
+  v |= 1;                // 1 indicates read access
+  v |= (RegIndex << 1);
+  BitPosData = JTAG_StoreDR(v, 35);
+  JTAG_StoreClocks(8);
+  return BitPosData;
+}
+
+/*********************************************************************
+*
+*       _StoreWriteAPDPReg
+*
+*  Function description
+*    Writes an AP or DP register. Depends on the previous command (DPACC / APACC)
+*/
+int _StoreWriteAPDPReg(unsigned int RegIndex, __int64 Data) {
+  __int64 v;        // We need 35 bits: 32 data, 2 bit addr, 1 bit RnW
+  int BitPosData;
+  //
+  // Write 35 bits (32 bits data, 2 bits addr, 1 bit RnW)
+  //
+  v = 0;   // 0 indicates write access
+  v |= (RegIndex << 1);
+  v |= (Data << 3);
+  BitPosData = JTAG_StoreDR(v, 35);
+  JTAG_StoreClocks(8);
+  return BitPosData;
+}
+
+/*********************************************************************
+*
+*       InitTarget
+*
+*  Function description
+*    Prepare LPC4350 for multi-core debugging
+*    On the LPC4350 after reset there is only a Cortex-M4 present,
+*    but it is possible to configure the device to also have a Cortex-M0 in the JTAG chain.
+*    This is what this script does.
+*/
+void InitTarget(void) {
+  int v;
+  int BitPos;
+  int Speed;
+  int ResetStatRegAddr;
+  int ResetCtrlregAddr;
+  int ResetBitPosition;  
+
+  Report("NXP LPC4350 (Cortex-M4+M0 core) J-Link script");
+  Speed = JTAG_Speed;
+  JTAG_Speed = 100;
+  JTAG_Reset();                           // Perform TAP reset and J-Link JTAG auto-detection
+  //
+  // This script is able to handle all three versions of the LPC4350 silicon
+  // 1st silicon: After power-up only the Cortex-M4 is in the JTAG chain, the Cortex-M0 needs to be added
+  // 2nd silicon: After power-up the Cortex-M4 and the Cortex-M0 are in the JTAG chain. The Cortex-M4 is shown twice (bug, will be fixed in 3rd silicon)
+  // 3rd silicon: After power-up the Cortex-M4 and the Cortex-M0 are in the JTAG chain.
+  //
+  if ((JTAG_TotalIRLen != 4) && (JTAG_TotalIRLen != 8) && (JTAG_TotalIRLen != 12)) {
+    MessageBox("This script is designed for working with only a LPC4350 in the JTAG chain.");
+    return 0;
+  }
+  //
+  // If only the Cortex-M4 is in the chain, make sure that the Cortex-M0 is added
+  //
+  if (JTAG_TotalIRLen == 4) {
+    JTAG_DRPre  = 0;
+    JTAG_DRPost = 0;
+    JTAG_IRPre  = 0;
+    JTAG_IRPost = 0;
+    JTAG_IRLen  = 4;
+    Report("J-Link script: Enabling Cortex-M0.");
+    _StoreSelDP();
+    _StoreWriteAPDPReg(1, 0x50000020);          // Power up debug port and system port
+    do {
+      BitPos = _StoreTriggerReadAPDPReg(1);
+      v = JTAG_GetU32(BitPos + 3);
+    } while((v & 0xF0000000) != 0xF0000000);    // Wait until debug port and system port have been powered-up
+    _StoreWriteAPDPReg(2, 0x00000000);          // Select AHB-AP
+    _StoreSelAP();
+    _StoreWriteAPDPReg(0, 0x23000012);          // AHB-AP CSW: 32-bit accesses, Address increment enabled
+    //
+    // Enable the Cortex-M4 and Cortex-M0 in the JTAG chain
+    //
+    _StoreWriteAPDPReg(1, 0x40043118);          // AHB-AP TAR
+    _StoreWriteAPDPReg(3, 0x00000060);          // AHB-AP DRW
+    JTAG_WriteClocks(1);
+    _StoreSelDP();
+    JTAG_WriteClocks(1);                        // Make sure all JTAG buffers are empty
+    JTAG_Reset();
+    if (JTAG_TotalIRLen != 8) {
+      MessageBox("Error: Could not enable Cortex-M0.");
+      JTAG_Speed = Speed;
+      return 0;
+    }
+  }
+  //
+  // Handle cases:
+  // 1st silicon: Cortex-M0 has been enabled
+  // 3rd silicon: Cortex-M0 is already enabled after power-up
+  //
+  if (JTAG_TotalIRLen == 8) {
+    //
+    // Re-configure JTAG settings since we have 2 devices (Cortex-M4 and Cortex-M0 in the JTAG chain now)
+    // #0: Cortex-M4
+    // #1: Cortex-M0
+    // We want to talk to the Cortex-M4
+    //
+    Report("J-Link script: Cortex-M0 already enabled.");
+    JTAG_DRPre  = 0;
+    JTAG_DRPost = 1;
+    JTAG_IRPre  = 0;
+    JTAG_IRPost = 4;
+    JTAG_IRLen  = 4;
+    CPU=CORTEX_M4;
+    JTAG_SetDeviceId(0, 0x4BA00477);  // Device #0 is the Cortex-M4
+    JTAG_SetDeviceId(1, 0x0BA01477);  // Device #1 is the Cortex-M0
+  }
+  //
+  // Handle 2nd (buggy) silicon, which shows 3 devices in the JTAG chain
+  // #0: Cortex-M4
+  // #1: Cortex-M4  (not really present, bug in silicon)
+  // #2: Cortex-M0
+  // We want to talk to the Cortex-M4
+  //
+  if (JTAG_TotalIRLen == 12) {
+    Report("J-Link script: Cortex-M0 already enabled.");
+    JTAG_DRPre  = 0;
+    JTAG_DRPost = 2;
+    JTAG_IRPre  = 0;
+    JTAG_IRPost = 8;
+    JTAG_IRLen  = 4;
+    CPU=CORTEX_M4;
+    JTAG_SetDeviceId(0, 0x4BA00477);  // Device #0 is the Cortex-M4
+    JTAG_SetDeviceId(1, 0x0BA01477);  // Device #1 is the Cortex-M4 with wrong ID. Only present on buggy silicon
+    JTAG_SetDeviceId(2, 0x0BA01477);  // Device #1 is the Cortex-M0
+  }
+  JTAG_WriteClocks(1);
+  JTAG_Speed = Speed;
+}

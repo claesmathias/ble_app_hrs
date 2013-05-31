@@ -1,0 +1,23 @@
+/*********************************************************************
+*               SEGGER MICROCONTROLLER GmbH & Co KG                  *
+*       Solutions for real time microcontroller applications         *
+**********************************************************************
+*                                                                    *
+*       (c) 2011  SEGGER Microcontroller GmbH & Co KG                *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+----------------------------------------------------------------------
+Purpose : ETM support for ARM 7/9
+---------------------------END-OF-HEADER------------------------------
+*/
+
+/*********************************************************************
+*
+*       InitEMU
+*/
+void InitEMU(void) {
+  EMU_ETM_IsPresent = 1;    // Tells the J-Link DLL that the connected device has an ETM
+  EMU_ETM_UseETM = 1;       // Make ETM usable in IDEs (e.g. IAR EWARM)
+}

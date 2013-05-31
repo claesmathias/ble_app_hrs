@@ -1,0 +1,94 @@
+/*********************************************************************
+*               SEGGER MICROCONTROLLER GmbH & Co KG                  *
+*       Solutions for real time microcontroller applications         *
+**********************************************************************
+*                                                                    *
+*       (c) 2011  SEGGER Microcontroller GmbH & Co KG                *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+----------------------------------------------------------------------
+Purpose : J-Link script file for NXP LPC4350 device.
+          The NXP LPC4350 is a Cortex-M4 based device which has an
+          additional Cortex-M0 core inside which can be enabled.
+          This script is used to configure the J-Link to talk to the Cortex-M0 core.
+          This script assumes that LPC4350_DebugCortexM4.JLinkScript has already been executed before using this script file.
+---------------------------END-OF-HEADER------------------------------
+*/
+
+/*********************************************************************
+*
+*       ResetTarget
+*
+*  Function description
+*    Do nothing. We can not reset the Cortex-M0 while debugging on it since
+*    It does not come out of reset automatically. So once if has been reset
+*    Only the M4 is able to get it out of the reset state.
+*/
+void ResetTarget(void) {
+  int Speed;
+
+  Report("J-Link script: Performing reset sequence");
+  Speed = JTAG_Speed;
+  JTAG_Speed = 100;
+  JTAG_WriteClocks(1);
+  JTAG_Speed = Speed;
+}
+
+/*********************************************************************
+*
+*       InitTarget
+*
+*  Function description
+*    Select the Cortex-M0 as the device we want to debug
+*    If it is not already enabled we are done here, because configuration
+*    has to be done when setting up the Cortex-M4 debug session
+*/
+void InitTarget(void) {
+  int v;
+  int BitPos;
+  int Speed;
+  //
+  // This script is able to handle all three versions of the LPC4350 silicon
+  // 1st silicon: After power-up only the Cortex-M4 is in the JTAG chain, the Cortex-M0 needs to be added
+  // 2nd silicon: After power-up the Cortex-M4 and the Cortex-M0 are in the JTAG chain. The Cortex-M4 is shown twice (bug, will be fixed in 3rd silicon)
+  // 3rd silicon: After power-up the Cortex-M4 and the Cortex-M0 are in the JTAG chain.
+  //
+  Report("NXP LPC4350 (Cortex-M4+M0 core) J-Link script");
+  Speed = JTAG_Speed;
+  JTAG_Speed = 100;
+  JTAG_Reset();                           // Perform TAP reset and J-Link JTAG auto-detection
+  //
+  // Check if the Cortex-M0 is already enabled
+  // If not, we are done here
+  //
+  if ((JTAG_TotalIRLen != 8) && (JTAG_TotalIRLen != 12)) {
+    MessageBox("LPC4350_DebugCortexM4.JLinkScript has to be executed prior to this script.");
+    JTAG_Speed = Speed;
+    return 0;
+  }
+  //
+  // Configure the JTAG chain to talk to the LPC4350 Cortex-M0 core
+  //
+  if (JTAG_TotalIRLen == 8) {
+    JTAG_DRPre  = 1;
+    JTAG_DRPost = 0;
+    JTAG_IRPre  = 4;
+    JTAG_IRPost = 0;
+    JTAG_IRLen  = 4;
+    JTAG_SetDeviceId(0, 0x4BA00477);  // Device #0 is the Cortex-M4
+    JTAG_SetDeviceId(1, 0x0BA01477);  // Device #1 is the Cortex-M0
+  } else {
+    JTAG_DRPre  = 2;
+    JTAG_DRPost = 0;
+    JTAG_IRPre  = 8;
+    JTAG_IRPost = 0;
+    JTAG_IRLen  = 4;
+    JTAG_SetDeviceId(0, 0x4BA00477);  // Device #0 is the Cortex-M4
+    JTAG_SetDeviceId(1, 0x0BA01477);  // Device #1 is the Cortex-M4 (only visible on buggy silicon)
+    JTAG_SetDeviceId(2, 0x0BA01477);  // Device #1 is the Cortex-M0
+  }
+  CPU=CORTEX_M0;
+  JTAG_Speed = Speed;
+}

@@ -1,0 +1,51 @@
+/*********************************************************************
+*               SEGGER MICROCONTROLLER GmbH & Co KG                  *
+*       Solutions for real time microcontroller applications         *
+**********************************************************************
+*                                                                    *
+*       (c) 2011  SEGGER Microcontroller GmbH & Co KG                *
+*                                                                    *
+*       www.segger.com     Support: support@segger.com               *
+*                                                                    *
+**********************************************************************
+----------------------------------------------------------------------
+File    : SPC560Bxx.JLinkScript
+Purpose : J-Link target setup file for SPC560Bxx device
+---------------------------END-OF-HEADER------------------------------
+*/
+
+/*********************************************************************
+*
+*       InitTarget
+*/
+void InitTarget(void) {
+  unsigned int v;
+  int BitPos;
+  
+  Report("ST SPC560Bxx J-Link script file");
+  JTAG_Speed = 2000;
+  JTAG_AllowTAPReset=0;
+  JTAG_DRPre  = 0;
+  JTAG_DRPost = 0;
+  JTAG_IRPre  = 0;
+  JTAG_IRPost = 0;
+  JTAG_IRLen  = 5;
+  JTAG_ResetPin = 0;
+  JTAG_Write(0x1F, 0x00, 6);
+  JTAG_Write(0x303, 0x110, 10);
+  JTAG_Write(0x6003, 0x2020, 16);
+  BitPos = JTAG_Write(0xC00000001, 0, 36);
+  v = JTAG_GetU32(BitPos + 3);
+  JTAG_Write(0x6003, 0x0120, 16);       // Select OCR
+  JTAG_Write(0xC00000001, 0x28, 36);    // Set debug request [DR] and wakeup request [WKUP] in OCR
+  JTAG_WriteClocks(1);
+  CPU=0x10FFFFFF;
+  JTAG_SetDeviceId(0, 0x7C1C01D);
+  JTAG_ResetPin = 1;
+  SYS_Sleep(100);
+  BitPos = JTAG_Write(0x6003, 0x27F0, 16);       // Select BYPASS to read out OSR
+  v = JTAG_GetU32(BitPos + 4) & 0x3FF;
+  if ((v & (1 << 3)) == 0) {
+    MessageBox("ERROR: CPU not halted after reset!");
+  }
+}

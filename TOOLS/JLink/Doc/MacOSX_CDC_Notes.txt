@@ -1,0 +1,14 @@
+Special attention needed for J-Link OB with CDC functionality under Mac OS X:
+Due to a limitation of the Mac OS X CDC kernel driver, J-Link OBs with CDC functionality
+can not be used as CDC device + J-Link at the same time when used on Mac OS X.
+For using the J-Link functionality, the CDC driver of Mac OS X needs to be disabled temporarily.
+In order to use the CDC functionality, the CDC driver needs to be enabled again.
+
+How to use J-Link functionality:
+- Double click Samples\CDCDisable.term (execution requires root access rights)
+- Physically disconnect & reconnect J-Link to Mac
+
+
+How to use CDC functionality again:
+- Double click Samples\CDCEnable.term (execution requires root access rights)
+- Physically disconnect & reconnect J-Link to Mac
