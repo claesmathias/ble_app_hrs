@@ -120,8 +120,8 @@ static void gpiote_event_handler(uint32_t event_pins_low_to_high, uint32_t event
     err_code = app_timer_stop(m_detection_delay_timer_id);
     if (err_code != NRF_SUCCESS)
     {
-        // The impact in app_button of the app_timer queue running full is losing a button press.
-        // The current implementation ensures that the system will continue working as normal. 
+        // The impact in app_button of the app_timer queue running full is loosing a button press.
+        // However the current implementation ensures that the system will continue working as normal. 
         return;
     }
 
@@ -130,8 +130,8 @@ static void gpiote_event_handler(uint32_t event_pins_low_to_high, uint32_t event
                                (void *)(event_pins_low_to_high | event_pins_high_to_low));
     if (err_code != NRF_SUCCESS)
     {
-        // The impact in app_button of the app_timer queue running full is losing a button press.
-        // The current implementation ensures that the system will continue working as normal. 
+        // The impact in app_button of the app_timer queue running full is loosing a button press.
+        // However the current implementation ensures that the system will continue working as normal. 
     }
 }
 

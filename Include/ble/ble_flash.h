@@ -32,19 +32,18 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <nrf51.h>
 
 #define BLE_FLASH_PAGE_SIZE     ((uint16_t)NRF_FICR->CODEPAGESIZE)  /**< Size of one flash page. */
 #define BLE_FLASH_MAGIC_NUMBER  0x45DE0000                          /**< Magic value to identify if flash contains valid data. */
 
 /**@brief Erases the specified flash page, and then writes the given data to this page.
  *
- * @warning This operation blocks the CPU. DO NOT use while in a connection!
+ * @note This operation blocks the CPU, so it should not be done while the radio is running!
  *
  * @param[in]  page_num     Page number to update.
  * @param[in]  p_in_array   Pointer to a RAM area containing the elements to write in flash.
  *                          This area has to be 32 bits aligned.
- * @param[in]  word_count   Number of 32 bits words to write in flash.
+ * @param[in]  word_count   Number of 32bits words to write in flash.
  *
  * @return     NRF_SUCCESS on successful flash write, otherwise an error code.
  */
@@ -55,7 +54,7 @@ uint32_t ble_flash_page_write(uint8_t page_num, uint32_t * p_in_array, uint8_t w
  * @param[in]  page_num       Page number to read.
  * @param[out] p_out_array    Pointer to a RAM area where the found data will be written. 
  *                            This area has to be 32 bits aligned.
- * @param[out] p_word_count   Number of 32 bits words read.
+ * @param[out] p_word_count   Number of 32bits words read.
  *
  * @return     NRF_SUCCESS on successful upload, NRF_ERROR_NOT_FOUND if no valid data has been found
  *             in flash (first 32 bits not equal to the MAGIC_NUMBER+CRC).

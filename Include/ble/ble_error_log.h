@@ -28,10 +28,11 @@
 #include <stdbool.h>
 #include "ble_nrf6310_pins.h"
 
-#define ERROR_MESSAGE_LENGTH  128                                /**< Length of error message to stored. */
-#define STACK_DUMP_LENGTH     256                                /**< Length of stack to be stored at max: 64 entries of 4 bytes each. */
-#define FLASH_PAGE_ERROR_LOG  (NRF_FICR->CODESIZE-2)             /**< Address in flash where stack trace can be stored. */
-#define LOG_LED_PIN_NO        NRF6310_LED_6                      /**< Use LED 6 to identify messages in log. */
+#define ERROR_MESSAGE_LENGTH  128                              /**< Length of error message to stored. */
+#define STACK_DUMP_LENGTH     64                               /**< Length of stack to be stored at max: 64 entries of 4 bytes each. */
+#define FLASH_PAGE_ERROR_LOG  254                              /**< Address in flash where stack trace can be stored. */
+#define ROM_ADDRESS_START     0x00020000                       /**< Address in the flash where the application is located. This address MUST correspond to the Keil Target ROM address defined for the application. */
+#define LOG_LED_PIN_NO        NRF6310_LED_6                    /**< Use LED 6 to identify messages in log. */
 
 /**@brief Error Log Data structure.
  *
@@ -40,19 +41,15 @@
  */
 typedef struct
 {
-    uint16_t                  failure;                           /**< Indication that a major failure has occurred during last execution of the application. */
-    uint16_t                  line_number;                       /**< Line number indicating at which line the failure occurred. */
-    uint32_t                  err_code;                          /**< Error code when failure occurred. */
-    uint8_t                   message[ERROR_MESSAGE_LENGTH];     /**< Will just use the first 128 bytes of filename to store for debugging purposes. */
-    uint32_t                  stack_info[STACK_DUMP_LENGTH / 4]; /**< Will contain stack information, can be manually unwinded for debug purposes. */
+    bool                      failure;                         /**< Indication that a major failure has occurred during last execution of the application. */
+    uint32_t                  err_code;                        /**< Error code when failure occurred. */
+    uint16_t                  line_number;                     /**< Line number indicating at which line the failure occurred. */
+    uint8_t                   message[ERROR_MESSAGE_LENGTH];   /**< Will just use the first 128 bytes of filename to store for debugging purposes. */
+    uint32_t                  stack_info[STACK_DUMP_LENGTH];   /**< Will contain stack information, can be manually unwinded for debug purposes. */
 } ble_error_log_data_t;
 
 
-/**@brief Write Error Log will write the file name/message, line number, and current program stack
- *        to flash.
- * 
- * @note This function will force the writing to flash, and disregard any radio communication.
- *       USE THIS FUNCTION WITH CARE.
+/**@brief Write Error Log and current program stack to flash.
  *
  * @param[in]   err_code    Error code to be logged.
  * @param[in]   p_message   Message to be written to the flash together with stack dump, usually

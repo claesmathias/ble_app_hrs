@@ -14,7 +14,7 @@
     @ingroup BLE_COMMON
   @}
 
-  @defgroup ble_err General error codes
+  @defgroup ble_err General error codes.
   @{
 
   @brief General error code definitions for the BLE API.
@@ -26,7 +26,7 @@
 
 #include "nrf_error.h"
 
-/* @defgroup BLE_ERRORS Error Codes
+/* @defgroup BLE_ERRORS Error Codes.
  * @{ */
 #define BLE_ERROR_INVALID_CONN_HANDLE    (NRF_ERROR_STK_BASE_NUM+0x001) /**< Invalid connection handle. */
 #define BLE_ERROR_INVALID_ATTR_HANDLE    (NRF_ERROR_STK_BASE_NUM+0x002) /**< Invalid attribute handle. */
@@ -34,7 +34,7 @@
 /** @} */
 
 
-/** @defgroup BLE_ERROR_SUBRANGES Module specific error code subranges
+/** @defgroup BLE_ERROR_SUBRANGES Module specific error code subranges.
  *  @brief Assignment of subranges for module specific error codes.
  *  @note For specific error codes, see ble_<module>.h or ble_error_<module>.h.
  * @{ */

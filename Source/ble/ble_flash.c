@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "nrf_soc.h"
 #include "nordic_common.h"
 #include "nrf_error.h"
 #include "nrf.h"
@@ -22,7 +21,7 @@
 #include "app_util.h"
 
 
-static volatile bool m_radio_active = false;  /**< TRUE if radio is active (or about to become active), FALSE otherwise. */
+static bool m_radio_active = false;  /**< TRUE if radio is active (or about to become active), FALSE otherwise. */
 
 
 uint16_t ble_flash_crc16_compute(uint8_t * p_data, uint16_t size, uint16_t * p_crc)
@@ -42,60 +41,31 @@ uint16_t ble_flash_crc16_compute(uint8_t * p_data, uint16_t size, uint16_t * p_c
 }
 
 
-/**@brief Erases a page in flash.
+/**@brief Erases a page in flash
  * 
  * @param[in]  p_page  Pointer to first word in page to be erased.
  */
 static void flash_page_erase(uint32_t * p_page)
 {
-    // Turn on flash erase enable and wait until the NVMC is ready.
+    // Turn on flash erase enable and wait until the NVMC is ready
     NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Een << NVMC_CONFIG_WEN_Pos);
-    while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
-    {
-        // Do nothing.
-    }
-
-    // Erase page.
-    NRF_NVMC->ERASEPAGE = (uint32_t)p_page;
-    while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
-    {
-        // Do nothing.
-    }
-
-    // Turn off flash erase enable and wait until the NVMC is ready.
-    NRF_NVMC->CONFIG &= ~(NVMC_CONFIG_WEN_Een << NVMC_CONFIG_WEN_Pos);
     while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
     {
         // Do nothing
     }
-}
 
-
-/**@brief Write one word to flash. Unprotected write, which can interfere with radio communication.
- *
- * @details This function DOES NOT use the m_radio_active variable, but will force the write even
- *          when the radio is active. To be used only from @ref ble_flash_page_write.
- *
- * @note Flash location to be written must have been erased previously.
- *
- * @param[in]  p_address   Pointer to flash location to be written.
- * @param[in]  value       Value to write to flash.
- */
-static void flash_word_unprotected_write(uint32_t * p_address, uint32_t value)
-{
-    // Turn on flash write enable and wait until the NVMC is ready.
-    NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos);
+    // Erase page
+    NRF_NVMC->ERASEPAGE = (uint32_t)p_page;
     while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
     {
-        // Do nothing.
+        // Do nothing
     }
-    *p_address = value;
 
-    // Turn off flash write enable and wait until the NVMC is ready.
-    NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos);
+    // Turn off flash erase enable and wait until the NVMC is ready
+    NRF_NVMC->CONFIG &= ~(NVMC_CONFIG_WEN_Een << NVMC_CONFIG_WEN_Pos);
     while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
     {
-        // Do nothing.
+        // Do nothing
     }
 }
 
@@ -109,22 +79,21 @@ static void flash_word_unprotected_write(uint32_t * p_address, uint32_t value)
  */
 static void flash_word_write(uint32_t * p_address, uint32_t value)
 {
-    // If radio is active, wait for it to become inactive.
+    // If radio is active, wait for it to become inactive
     while (m_radio_active)
     {
-        // Do nothing (just wait for radio to become inactive).
-        (void) sd_app_event_wait();
+        // Do nothing (just wait for radio to become inactive)
     }
     
-    // Turn on flash write enable and wait until the NVMC is ready.
+    // Turn on flash write enable and wait until the NVMC is ready
     NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos);
     while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
     {
-        // Do nothing.
+        // Do nothing
     }
     *p_address = value;
 
-    // Turn off flash write enable and wait until the NVMC is ready.
+    // Turn off flash write enable and wait until the NVMC is ready
     NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos);
     while (NRF_NVMC->READY == NVMC_READY_READY_Busy)
     {
@@ -175,41 +144,41 @@ uint32_t ble_flash_page_write(uint8_t page_num, uint32_t * p_in_array, uint8_t w
     p_page      = (uint32_t *)(BLE_FLASH_PAGE_SIZE * page_num);
     p_curr_addr = p_page;
 
-    // Calculate CRC of the data to write.
-    in_data_crc = ble_flash_crc16_compute((uint8_t *)p_in_array,
+    // Calculate CRC of the data to write
+    in_data_crc = ble_flash_crc16_compute((uint8_t*)p_in_array,
                                           word_count * sizeof(uint32_t),
                                           NULL);
     
-    // Compare the calculated to the one in flash.
+    // Compare the calculated to the one in flash
     flash_header = *p_curr_addr;
     flash_crc    = (uint16_t)flash_header;
     
     if (flash_crc == in_data_crc)
     {
-        // Data is the same as the data already stored in flash, return without modifying flash.
+        // Data is the same as the data already stored in flash, return without modifying flash
         return NRF_SUCCESS;
     }
 
     // Erase flash page
     flash_page_erase(p_page);
 
-    // Reserve space for magic number (for detecting if flash content is valid).
+    // Reserve space for magic number (for detecting if flash content is valid)
     p_curr_addr++;
     
-    // Reserve space for saving word_count.
+    // Reserve space for saving word_count
     p_curr_addr++;
 
     // Write data
     for (i = 0; i < word_count; i++)
     {
-        flash_word_unprotected_write(p_curr_addr, p_in_array[i]);
+        flash_word_write(p_curr_addr, p_in_array[i]);
         p_curr_addr++;
     }
     
-    // Write number of elements.
+    // Write number of elements
     flash_word_write(p_page + 1, (uint32_t)(word_count));
     
-    // Write magic number and CRC to indicate that flash content is valid.
+    // Write magic number and CRC to indicate that flash content is valid
     flash_header = BLE_FLASH_MAGIC_NUMBER | (uint32_t)in_data_crc;
     flash_word_write(p_page, flash_header);
     

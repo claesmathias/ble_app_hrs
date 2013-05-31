@@ -5756,6 +5756,405 @@
 #define UICR_FWID_FWID_Pos (0UL) /*!< Position of FWID field. */
 #define UICR_FWID_FWID_Msk (0xFFFFUL << UICR_FWID_FWID_Pos) /*!< Bit mask of FWID field. */
 
+/* Register: UICR_AUTOPROTEN */
+/* Description: Enable automatic flash area protection. */
+
+/* Bits 7..0 : Enable automatic flash area protection. */
+#define UICR_AUTOPROTEN_AUTOPROTEN_Pos (0UL) /*!< Position of AUTOPROTEN field. */
+#define UICR_AUTOPROTEN_AUTOPROTEN_Msk (0xFFUL << UICR_AUTOPROTEN_AUTOPROTEN_Pos) /*!< Bit mask of AUTOPROTEN field. */
+#define UICR_AUTOPROTEN_AUTOPROTEN_Disabled (0xFFUL) /*!< Automatic flash area protection disabled. */
+#define UICR_AUTOPROTEN_AUTOPROTEN_Enabled (0x00UL) /*!< Automatic flash area protection enabled. */
+
+/* Register: UICR_AUTOPROTVALUE0 */
+/* Description: Auto-loaded register values for PROTENSET0 after reset. */
+
+/* Bit 31 : Auto-load value for PROTENSET0.PROTREG31 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG31_Pos (31UL) /*!< Position of PROTREG31 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG31_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG31_Pos) /*!< Bit mask of PROTREG31 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG31_Enabled (0UL) /*!< PROTENSET0.PROTREG31 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG31_Disabled (1UL) /*!< PROTENSET0.PROTREG31 bit automaticaly cleared after reset. */
+
+/* Bit 30 : Auto-load value for PROTENSET0.PROTREG30 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG30_Pos (30UL) /*!< Position of PROTREG30 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG30_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG30_Pos) /*!< Bit mask of PROTREG30 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG30_Enabled (0UL) /*!< PROTENSET0.PROTREG30 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG30_Disabled (1UL) /*!< PROTENSET0.PROTREG30 bit automaticaly cleared after reset. */
+
+/* Bit 29 : Auto-load value for PROTENSET0.PROTREG29 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG29_Pos (29UL) /*!< Position of PROTREG29 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG29_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG29_Pos) /*!< Bit mask of PROTREG29 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG29_Enabled (0UL) /*!< PROTENSET0.PROTREG29 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG29_Disabled (1UL) /*!< PROTENSET0.PROTREG29 bit automaticaly cleared after reset. */
+
+/* Bit 28 : Auto-load value for PROTENSET0.PROTREG28 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG28_Pos (28UL) /*!< Position of PROTREG28 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG28_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG28_Pos) /*!< Bit mask of PROTREG28 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG28_Enabled (0UL) /*!< PROTENSET0.PROTREG28 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG28_Disabled (1UL) /*!< PROTENSET0.PROTREG28 bit automaticaly cleared after reset. */
+
+/* Bit 27 : Auto-load value for PROTENSET0.PROTREG27 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG27_Pos (27UL) /*!< Position of PROTREG27 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG27_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG27_Pos) /*!< Bit mask of PROTREG27 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG27_Enabled (0UL) /*!< PROTENSET0.PROTREG27 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG27_Disabled (1UL) /*!< PROTENSET0.PROTREG27 bit automaticaly cleared after reset. */
+
+/* Bit 26 : Auto-load value for PROTENSET0.PROTREG26 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG26_Pos (26UL) /*!< Position of PROTREG26 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG26_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG26_Pos) /*!< Bit mask of PROTREG26 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG26_Enabled (0UL) /*!< PROTENSET0.PROTREG26 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG26_Disabled (1UL) /*!< PROTENSET0.PROTREG26 bit automaticaly cleared after reset. */
+
+/* Bit 25 : Auto-load value for PROTENSET0.PROTREG25 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG25_Pos (25UL) /*!< Position of PROTREG25 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG25_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG25_Pos) /*!< Bit mask of PROTREG25 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG25_Enabled (0UL) /*!< PROTENSET0.PROTREG25 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG25_Disabled (1UL) /*!< PROTENSET0.PROTREG25 bit automaticaly cleared after reset. */
+
+/* Bit 24 : Auto-load value for PROTENSET0.PROTREG24 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG24_Pos (24UL) /*!< Position of PROTREG24 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG24_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG24_Pos) /*!< Bit mask of PROTREG24 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG24_Enabled (0UL) /*!< PROTENSET0.PROTREG24 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG24_Disabled (1UL) /*!< PROTENSET0.PROTREG24 bit automaticaly cleared after reset. */
+
+/* Bit 23 : Auto-load value for PROTENSET0.PROTREG23 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG23_Pos (23UL) /*!< Position of PROTREG23 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG23_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG23_Pos) /*!< Bit mask of PROTREG23 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG23_Enabled (0UL) /*!< PROTENSET0.PROTREG23 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG23_Disabled (1UL) /*!< PROTENSET0.PROTREG23 bit automaticaly cleared after reset. */
+
+/* Bit 22 : Auto-load value for PROTENSET0.PROTREG22 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG22_Pos (22UL) /*!< Position of PROTREG22 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG22_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG22_Pos) /*!< Bit mask of PROTREG22 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG22_Enabled (0UL) /*!< PROTENSET0.PROTREG22 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG22_Disabled (1UL) /*!< PROTENSET0.PROTREG22 bit automaticaly cleared after reset. */
+
+/* Bit 21 : Auto-load value for PROTENSET0.PROTREG21 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG21_Pos (21UL) /*!< Position of PROTREG21 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG21_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG21_Pos) /*!< Bit mask of PROTREG21 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG21_Enabled (0UL) /*!< PROTENSET0.PROTREG21 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG21_Disabled (1UL) /*!< PROTENSET0.PROTREG21 bit automaticaly cleared after reset. */
+
+/* Bit 20 : Auto-load value for PROTENSET0.PROTREG20 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG20_Pos (20UL) /*!< Position of PROTREG20 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG20_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG20_Pos) /*!< Bit mask of PROTREG20 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG20_Enabled (0UL) /*!< PROTENSET0.PROTREG20 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG20_Disabled (1UL) /*!< PROTENSET0.PROTREG20 bit automaticaly cleared after reset. */
+
+/* Bit 19 : Auto-load value for PROTENSET0.PROTREG19 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG19_Pos (19UL) /*!< Position of PROTREG19 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG19_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG19_Pos) /*!< Bit mask of PROTREG19 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG19_Enabled (0UL) /*!< PROTENSET0.PROTREG19 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG19_Disabled (1UL) /*!< PROTENSET0.PROTREG19 bit automaticaly cleared after reset. */
+
+/* Bit 18 : Auto-load value for PROTENSET0.PROTREG18 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG18_Pos (18UL) /*!< Position of PROTREG18 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG18_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG18_Pos) /*!< Bit mask of PROTREG18 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG18_Enabled (0UL) /*!< PROTENSET0.PROTREG18 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG18_Disabled (1UL) /*!< PROTENSET0.PROTREG18 bit automaticaly cleared after reset. */
+
+/* Bit 17 : Auto-load value for PROTENSET0.PROTREG17 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG17_Pos (17UL) /*!< Position of PROTREG17 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG17_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG17_Pos) /*!< Bit mask of PROTREG17 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG17_Enabled (0UL) /*!< PROTENSET0.PROTREG17 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG17_Disabled (1UL) /*!< PROTENSET0.PROTREG17 bit automaticaly cleared after reset. */
+
+/* Bit 16 : Auto-load value for PROTENSET0.PROTREG16 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG16_Pos (16UL) /*!< Position of PROTREG16 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG16_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG16_Pos) /*!< Bit mask of PROTREG16 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG16_Enabled (0UL) /*!< PROTENSET0.PROTREG6 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG16_Disabled (1UL) /*!< PROTENSET0.PROTREG6 bit automaticaly cleared after reset. */
+
+/* Bit 15 : Auto-load value for PROTENSET0.PROTREG15 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG15_Pos (15UL) /*!< Position of PROTREG15 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG15_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG15_Pos) /*!< Bit mask of PROTREG15 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG15_Enabled (0UL) /*!< PROTENSET0.PROTREG15 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG15_Disabled (1UL) /*!< PROTENSET0.PROTREG15 bit automaticaly cleared after reset. */
+
+/* Bit 14 : Auto-load value for PROTENSET0.PROTREG14 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG14_Pos (14UL) /*!< Position of PROTREG14 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG14_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG14_Pos) /*!< Bit mask of PROTREG14 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG14_Enabled (0UL) /*!< PROTENSET0.PROTREG14 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG14_Disabled (1UL) /*!< PROTENSET0.PROTREG14 bit automaticaly cleared after reset. */
+
+/* Bit 13 : Auto-load value for PROTENSET0.PROTREG13 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG13_Pos (13UL) /*!< Position of PROTREG13 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG13_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG13_Pos) /*!< Bit mask of PROTREG13 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG13_Enabled (0UL) /*!< PROTENSET0.PROTREG13 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG13_Disabled (1UL) /*!< PROTENSET0.PROTREG13 bit automaticaly cleared after reset. */
+
+/* Bit 12 : Auto-load value for PROTENSET0.PROTREG12 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG12_Pos (12UL) /*!< Position of PROTREG12 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG12_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG12_Pos) /*!< Bit mask of PROTREG12 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG12_Enabled (0UL) /*!< PROTENSET0.PROTREG12 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG12_Disabled (1UL) /*!< PROTENSET0.PROTREG12 bit automaticaly cleared after reset. */
+
+/* Bit 11 : Auto-load value for PROTENSET0.PROTREG11 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG11_Pos (11UL) /*!< Position of PROTREG11 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG11_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG11_Pos) /*!< Bit mask of PROTREG11 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG11_Enabled (0UL) /*!< PROTENSET0.PROTREG11 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG11_Disabled (1UL) /*!< PROTENSET0.PROTREG11 bit automaticaly cleared after reset. */
+
+/* Bit 10 : Auto-load value for PROTENSET0.PROTREG10 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG10_Pos (10UL) /*!< Position of PROTREG10 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG10_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG10_Pos) /*!< Bit mask of PROTREG10 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG10_Enabled (0UL) /*!< PROTENSET0.PROTREG10 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG10_Disabled (1UL) /*!< PROTENSET0.PROTREG10 bit automaticaly cleared after reset. */
+
+/* Bit 9 : Auto-load value for PROTENSET0.PROTREG9 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG9_Pos (9UL) /*!< Position of PROTREG9 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG9_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG9_Pos) /*!< Bit mask of PROTREG9 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG9_Enabled (0UL) /*!< PROTENSET0.PROTREG9 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG9_Disabled (1UL) /*!< PROTENSET0.PROTREG9 bit automaticaly cleared after reset. */
+
+/* Bit 8 : Auto-load value for PROTENSET0.PROTREG8 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG8_Pos (8UL) /*!< Position of PROTREG8 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG8_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG8_Pos) /*!< Bit mask of PROTREG8 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG8_Enabled (0UL) /*!< PROTENSET0.PROTREG8 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG8_Disabled (1UL) /*!< PROTENSET0.PROTREG8 bit automaticaly cleared after reset. */
+
+/* Bit 7 : Auto-load value for PROTENSET0.PROTREG7 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG7_Pos (7UL) /*!< Position of PROTREG7 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG7_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG7_Pos) /*!< Bit mask of PROTREG7 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG7_Enabled (0UL) /*!< PROTENSET0.PROTREG7 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG7_Disabled (1UL) /*!< PROTENSET0.PROTREG7 bit automaticaly cleared after reset. */
+
+/* Bit 6 : Auto-load value for PROTENSET0.PROTREG6 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG6_Pos (6UL) /*!< Position of PROTREG6 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG6_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG6_Pos) /*!< Bit mask of PROTREG6 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG6_Enabled (0UL) /*!< PROTENSET0.PROTREG6 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG6_Disabled (1UL) /*!< PROTENSET0.PROTREG6 bit automaticaly cleared after reset. */
+
+/* Bit 5 : Auto-load value for PROTENSET0.PROTREG5 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG5_Pos (5UL) /*!< Position of PROTREG5 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG5_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG5_Pos) /*!< Bit mask of PROTREG5 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG5_Enabled (0UL) /*!< PROTENSET0.PROTREG5 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG5_Disabled (1UL) /*!< PROTENSET0.PROTREG5 bit automaticaly cleared after reset. */
+
+/* Bit 4 : Auto-load value for PROTENSET0.PROTREG4 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG4_Pos (4UL) /*!< Position of PROTREG4 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG4_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG4_Pos) /*!< Bit mask of PROTREG4 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG4_Enabled (0UL) /*!< PROTENSET0.PROTREG4 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG4_Disabled (1UL) /*!< PROTENSET0.PROTREG4 bit automaticaly cleared after reset. */
+
+/* Bit 3 : Auto-load value for PROTENSET0.PROTREG3 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG3_Pos (3UL) /*!< Position of PROTREG3 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG3_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG3_Pos) /*!< Bit mask of PROTREG3 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG3_Enabled (0UL) /*!< PROTENSET0.PROTREG3 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG3_Disabled (1UL) /*!< PROTENSET0.PROTREG3 bit automaticaly cleared after reset. */
+
+/* Bit 2 : Auto-load value for PROTENSET0.PROTREG2 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG2_Pos (2UL) /*!< Position of PROTREG2 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG2_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG2_Pos) /*!< Bit mask of PROTREG2 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG2_Enabled (0UL) /*!< PROTENSET0.PROTREG2 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG2_Disabled (1UL) /*!< PROTENSET0.PROTREG2 bit automaticaly cleared after reset. */
+
+/* Bit 1 : Auto-load value for PROTENSET0.PROTREG1 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG1_Pos (1UL) /*!< Position of PROTREG1 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG1_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG1_Pos) /*!< Bit mask of PROTREG1 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG1_Enabled (0UL) /*!< PROTENSET0.PROTREG1 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG1_Disabled (1UL) /*!< PROTENSET0.PROTREG1 bit automaticaly cleared after reset. */
+
+/* Bit 0 : Auto-load value for PROTENSET0.PROTREG0 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG0_Pos (0UL) /*!< Position of PROTREG0 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG0_Msk (0x1UL << UICR_AUTOPROTVALUE0_PROTREG0_Pos) /*!< Bit mask of PROTREG0 field. */
+#define UICR_AUTOPROTVALUE0_PROTREG0_Enabled (0UL) /*!< PROTENSET0.PROTREG0 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE0_PROTREG0_Disabled (1UL) /*!< PROTENSET0.PROTREG0 bit automaticaly cleared after reset. */
+
+/* Register: UICR_AUTOPROTVALUE1 */
+/* Description: Auto-loaded register values for PROTENSET0 after reset. */
+
+/* Bit 31 : Auto-load value for PROTENSET0.PROTREG63 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG63_Pos (31UL) /*!< Position of PROTREG63 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG63_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG63_Pos) /*!< Bit mask of PROTREG63 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG63_Enabled (0UL) /*!< PROTENSET0.PROTREG63 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG63_Disabled (1UL) /*!< PROTENSET0.PROTREG63 bit automaticaly cleared after reset. */
+
+/* Bit 30 : Auto-load value for PROTENSET0.PROTREG62 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG62_Pos (30UL) /*!< Position of PROTREG62 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG62_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG62_Pos) /*!< Bit mask of PROTREG62 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG62_Enabled (0UL) /*!< PROTENSET0.PROTREG62 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG62_Disabled (1UL) /*!< PROTENSET0.PROTREG62 bit automaticaly cleared after reset. */
+
+/* Bit 29 : Auto-load value for PROTENSET0.PROTREG61 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG61_Pos (29UL) /*!< Position of PROTREG61 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG61_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG61_Pos) /*!< Bit mask of PROTREG61 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG61_Enabled (0UL) /*!< PROTENSET0.PROTREG61 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG61_Disabled (1UL) /*!< PROTENSET0.PROTREG61 bit automaticaly cleared after reset. */
+
+/* Bit 28 : Auto-load value for PROTENSET0.PROTREG60 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG60_Pos (28UL) /*!< Position of PROTREG60 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG60_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG60_Pos) /*!< Bit mask of PROTREG60 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG60_Enabled (0UL) /*!< PROTENSET0.PROTREG60 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG60_Disabled (1UL) /*!< PROTENSET0.PROTREG60 bit automaticaly cleared after reset. */
+
+/* Bit 27 : Auto-load value for PROTENSET0.PROTREG59 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG59_Pos (27UL) /*!< Position of PROTREG59 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG59_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG59_Pos) /*!< Bit mask of PROTREG59 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG59_Enabled (0UL) /*!< PROTENSET0.PROTREG59 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG59_Disabled (1UL) /*!< PROTENSET0.PROTREG59 bit automaticaly cleared after reset. */
+
+/* Bit 26 : Auto-load value for PROTENSET0.PROTREG58 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG58_Pos (26UL) /*!< Position of PROTREG58 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG58_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG58_Pos) /*!< Bit mask of PROTREG58 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG58_Enabled (0UL) /*!< PROTENSET0.PROTREG58 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG58_Disabled (1UL) /*!< PROTENSET0.PROTREG58 bit automaticaly cleared after reset. */
+
+/* Bit 25 : Auto-load value for PROTENSET0.PROTREG57 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG57_Pos (25UL) /*!< Position of PROTREG57 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG57_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG57_Pos) /*!< Bit mask of PROTREG57 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG57_Enabled (0UL) /*!< PROTENSET0.PROTREG57 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG57_Disabled (1UL) /*!< PROTENSET0.PROTREG57 bit automaticaly cleared after reset. */
+
+/* Bit 24 : Auto-load value for PROTENSET0.PROTREG56 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG56_Pos (24UL) /*!< Position of PROTREG56 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG56_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG56_Pos) /*!< Bit mask of PROTREG56 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG56_Enabled (0UL) /*!< PROTENSET0.PROTREG56 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG56_Disabled (1UL) /*!< PROTENSET0.PROTREG56 bit automaticaly cleared after reset. */
+
+/* Bit 23 : Auto-load value for PROTENSET0.PROTREG55 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG55_Pos (23UL) /*!< Position of PROTREG55 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG55_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG55_Pos) /*!< Bit mask of PROTREG55 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG55_Enabled (0UL) /*!< PROTENSET0.PROTREG55 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG55_Disabled (1UL) /*!< PROTENSET0.PROTREG55 bit automaticaly cleared after reset. */
+
+/* Bit 22 : Auto-load value for PROTENSET0.PROTREG54 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG54_Pos (22UL) /*!< Position of PROTREG54 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG54_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG54_Pos) /*!< Bit mask of PROTREG54 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG54_Enabled (0UL) /*!< PROTENSET0.PROTREG54 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG54_Disabled (1UL) /*!< PROTENSET0.PROTREG54 bit automaticaly cleared after reset. */
+
+/* Bit 21 : Auto-load value for PROTENSET0.PROTREG53 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG53_Pos (21UL) /*!< Position of PROTREG53 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG53_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG53_Pos) /*!< Bit mask of PROTREG53 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG53_Enabled (0UL) /*!< PROTENSET0.PROTREG53 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG53_Disabled (1UL) /*!< PROTENSET0.PROTREG53 bit automaticaly cleared after reset. */
+
+/* Bit 20 : Auto-load value for PROTENSET0.PROTREG52 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG52_Pos (20UL) /*!< Position of PROTREG52 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG52_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG52_Pos) /*!< Bit mask of PROTREG52 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG52_Enabled (0UL) /*!< PROTENSET0.PROTREG52 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG52_Disabled (1UL) /*!< PROTENSET0.PROTREG52 bit automaticaly cleared after reset. */
+
+/* Bit 19 : Auto-load value for PROTENSET0.PROTREG51 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG51_Pos (19UL) /*!< Position of PROTREG51 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG51_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG51_Pos) /*!< Bit mask of PROTREG51 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG51_Enabled (0UL) /*!< PROTENSET0.PROTREG51 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG51_Disabled (1UL) /*!< PROTENSET0.PROTREG51 bit automaticaly cleared after reset. */
+
+/* Bit 18 : Auto-load value for PROTENSET0.PROTREG50 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG50_Pos (18UL) /*!< Position of PROTREG50 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG50_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG50_Pos) /*!< Bit mask of PROTREG50 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG50_Enabled (0UL) /*!< PROTENSET0.PROTREG50 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG50_Disabled (1UL) /*!< PROTENSET0.PROTREG50 bit automaticaly cleared after reset. */
+
+/* Bit 17 : Auto-load value for PROTENSET0.PROTREG49 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG49_Pos (17UL) /*!< Position of PROTREG49 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG49_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG49_Pos) /*!< Bit mask of PROTREG49 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG49_Enabled (0UL) /*!< PROTENSET0.PROTREG49 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG49_Disabled (1UL) /*!< PROTENSET0.PROTREG49 bit automaticaly cleared after reset. */
+
+/* Bit 16 : Auto-load value for PROTENSET0.PROTREG48 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG48_Pos (16UL) /*!< Position of PROTREG48 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG48_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG48_Pos) /*!< Bit mask of PROTREG48 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG48_Enabled (0UL) /*!< PROTENSET0.PROTREG48 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG48_Disabled (1UL) /*!< PROTENSET0.PROTREG48 bit automaticaly cleared after reset. */
+
+/* Bit 15 : Auto-load value for PROTENSET0.PROTREG47 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG47_Pos (15UL) /*!< Position of PROTREG47 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG47_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG47_Pos) /*!< Bit mask of PROTREG47 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG47_Enabled (0UL) /*!< PROTENSET0.PROTREG47 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG47_Disabled (1UL) /*!< PROTENSET0.PROTREG47 bit automaticaly cleared after reset. */
+
+/* Bit 14 : Auto-load value for PROTENSET0.PROTREG46 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG46_Pos (14UL) /*!< Position of PROTREG46 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG46_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG46_Pos) /*!< Bit mask of PROTREG46 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG46_Enabled (0UL) /*!< PROTENSET0.PROTREG46 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG46_Disabled (1UL) /*!< PROTENSET0.PROTREG46 bit automaticaly cleared after reset. */
+
+/* Bit 13 : Auto-load value for PROTENSET0.PROTREG45 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG45_Pos (13UL) /*!< Position of PROTREG45 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG45_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG45_Pos) /*!< Bit mask of PROTREG45 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG45_Enabled (0UL) /*!< PROTENSET0.PROTREG45 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG45_Disabled (1UL) /*!< PROTENSET0.PROTREG45 bit automaticaly cleared after reset. */
+
+/* Bit 12 : Auto-load value for PROTENSET0.PROTREG44 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG44_Pos (12UL) /*!< Position of PROTREG44 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG44_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG44_Pos) /*!< Bit mask of PROTREG44 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG44_Enabled (0UL) /*!< PROTENSET0.PROTREG44 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG44_Disabled (1UL) /*!< PROTENSET0.PROTREG44 bit automaticaly cleared after reset. */
+
+/* Bit 11 : Auto-load value for PROTENSET0.PROTREG43 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG43_Pos (11UL) /*!< Position of PROTREG43 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG43_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG43_Pos) /*!< Bit mask of PROTREG43 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG43_Enabled (0UL) /*!< PROTENSET0.PROTREG43 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG43_Disabled (1UL) /*!< PROTENSET0.PROTREG43 bit automaticaly cleared after reset. */
+
+/* Bit 10 : Auto-load value for PROTENSET0.PROTREG42 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG42_Pos (10UL) /*!< Position of PROTREG42 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG42_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG42_Pos) /*!< Bit mask of PROTREG42 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG42_Enabled (0UL) /*!< PROTENSET0.PROTREG42 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG42_Disabled (1UL) /*!< PROTENSET0.PROTREG42 bit automaticaly cleared after reset. */
+
+/* Bit 9 : Auto-load value for PROTENSET0.PROTREG41 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG41_Pos (9UL) /*!< Position of PROTREG41 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG41_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG41_Pos) /*!< Bit mask of PROTREG41 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG41_Enabled (0UL) /*!< PROTENSET0.PROTREG41 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG41_Disabled (1UL) /*!< PROTENSET0.PROTREG41 bit automaticaly cleared after reset. */
+
+/* Bit 8 : Auto-load value for PROTENSET0.PROTREG40 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG40_Pos (8UL) /*!< Position of PROTREG40 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG40_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG40_Pos) /*!< Bit mask of PROTREG40 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG40_Enabled (0UL) /*!< PROTENSET0.PROTREG40 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG40_Disabled (1UL) /*!< PROTENSET0.PROTREG40 bit automaticaly cleared after reset. */
+
+/* Bit 7 : Auto-load value for PROTENSET0.PROTREG39 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG39_Pos (7UL) /*!< Position of PROTREG39 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG39_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG39_Pos) /*!< Bit mask of PROTREG39 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG39_Enabled (0UL) /*!< PROTENSET0.PROTREG39 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG39_Disabled (1UL) /*!< PROTENSET0.PROTREG39 bit automaticaly cleared after reset. */
+
+/* Bit 6 : Auto-load value for PROTENSET0.PROTREG38 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG38_Pos (6UL) /*!< Position of PROTREG38 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG38_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG38_Pos) /*!< Bit mask of PROTREG38 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG38_Enabled (0UL) /*!< PROTENSET0.PROTREG38 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG38_Disabled (1UL) /*!< PROTENSET0.PROTREG38 bit automaticaly cleared after reset. */
+
+/* Bit 5 : Auto-load value for PROTENSET0.PROTREG37 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG37_Pos (5UL) /*!< Position of PROTREG37 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG37_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG37_Pos) /*!< Bit mask of PROTREG37 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG37_Enabled (0UL) /*!< PROTENSET0.PROTREG37 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG37_Disabled (1UL) /*!< PROTENSET0.PROTREG37 bit automaticaly cleared after reset. */
+
+/* Bit 4 : Auto-load value for PROTENSET0.PROTREG36 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG36_Pos (4UL) /*!< Position of PROTREG36 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG36_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG36_Pos) /*!< Bit mask of PROTREG36 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG36_Enabled (0UL) /*!< PROTENSET0.PROTREG36 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG36_Disabled (1UL) /*!< PROTENSET0.PROTREG36 bit automaticaly cleared after reset. */
+
+/* Bit 3 : Auto-load value for PROTENSET0.PROTREG35 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG35_Pos (3UL) /*!< Position of PROTREG35 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG35_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG35_Pos) /*!< Bit mask of PROTREG35 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG35_Enabled (0UL) /*!< PROTENSET0.PROTREG35 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG35_Disabled (1UL) /*!< PROTENSET0.PROTREG35 bit automaticaly cleared after reset. */
+
+/* Bit 2 : Auto-load value for PROTENSET0.PROTREG34 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG34_Pos (2UL) /*!< Position of PROTREG34 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG34_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG34_Pos) /*!< Bit mask of PROTREG34 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG34_Enabled (0UL) /*!< PROTENSET0.PROTREG34 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG34_Disabled (1UL) /*!< PROTENSET0.PROTREG34 bit automaticaly cleared after reset. */
+
+/* Bit 1 : Auto-load value for PROTENSET0.PROTREG33 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG33_Pos (1UL) /*!< Position of PROTREG33 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG33_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG33_Pos) /*!< Bit mask of PROTREG33 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG33_Enabled (0UL) /*!< PROTENSET0.PROTREG33 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG33_Disabled (1UL) /*!< PROTENSET0.PROTREG33 bit automaticaly cleared after reset. */
+
+/* Bit 0 : Auto-load value for PROTENSET0.PROTREG32 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG32_Pos (0UL) /*!< Position of PROTREG32 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG32_Msk (0x1UL << UICR_AUTOPROTVALUE1_PROTREG32_Pos) /*!< Bit mask of PROTREG32 field. */
+#define UICR_AUTOPROTVALUE1_PROTREG32_Enabled (0UL) /*!< PROTENSET0.PROTREG32 bit automaticaly set after reset. */
+#define UICR_AUTOPROTVALUE1_PROTREG32_Disabled (1UL) /*!< PROTENSET0.PROTREG32 bit automaticaly cleared after reset. */
+
 
 /* Peripheral: WDT */
 /* Description: Watchdog Timer. */

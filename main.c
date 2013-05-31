@@ -46,15 +46,14 @@
 #include "app_button.h"
 #include "ble_radio_notification.h"
 #include "ble_flash.h"
-#include "ble_debug_assert_handler.h"
 
 
 #define HR_INC_BUTTON_PIN_NO                 EVAL_BOARD_BUTTON_0                       /**< Button used to increment heart rate. */
 #define HR_DEC_BUTTON_PIN_NO                 EVAL_BOARD_BUTTON_1                       /**< Button used to decrement heart rate. */
 #define BONDMNGR_DELETE_BUTTON_PIN_NO        HR_DEC_BUTTON_PIN_NO                      /**< Button used for deleting all bonded masters during startup. */
 
-#define DEVICE_NAME                          "Nordic_HRM"                              /**< Name of device. Will be included in the advertising data. */
-#define MANUFACTURER_NAME                    "NordicSemiconductor"                     /**< Manufacturer. Will be passed to Device Information Service. */
+#define DEVICE_NAME                          "Vasco_HRM1"                               /**< Name of device. Will be included in the advertising data. */
+#define MANUFACTURER_NAME                    "VascoDataSecurity"                       /**< Manufacturer. Will be passed to Device Information Service. */
 #define APP_ADV_INTERVAL                     40                                        /**< The advertising interval (in units of 0.625 ms. This value corresponds to 25 ms). */
 #define APP_ADV_TIMEOUT_IN_SECONDS           180                                       /**< The advertising timeout in units of seconds. */
 
@@ -92,10 +91,8 @@
 #define SEC_PARAM_MIN_KEY_SIZE               7                                         /**< Minimum encryption key size. */
 #define SEC_PARAM_MAX_KEY_SIZE               16                                        /**< Maximum encryption key size. */
 
-#define FLASH_PAGE_SYS_ATTR                  (NRF_FICR->CODESIZE-3)                    /**< Flash page used for bond manager system attribute information. */
-#define FLASH_PAGE_BOND                      (NRF_FICR->CODESIZE-1)                    /**< Flash page used for bond manager bonding information. */
-
-#define DEAD_BEEF                            0xDEADBEEF                                /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
+#define FLASH_PAGE_SYS_ATTR                  253                                       /**< Flash page used for bond manager system attribute information. */
+#define FLASH_PAGE_BOND                      255                                       /**< Flash page used for bond manager bonding information. */
 
 static ble_gap_sec_params_t                  m_sec_params;                             /**< Security requirements for this application. */
 static ble_gap_adv_params_t                  m_adv_params;                             /**< Parameters to be passed to the stack when starting advertising. */
@@ -114,11 +111,7 @@ static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
 * Error Handling Functions
 *****************************************************************************/
 
-
 /**@brief Error handler function, which is called when an error has occurred. 
- *
- * @warning This handler is an example only and does not fit a final product. You need to analyze 
- *          how your product is supposed to react in case of error.
  *
  * @param[in] error_code  Error code supplied to the handler.
  * @param[in] line_num    Line number where the handler is called.
@@ -126,34 +119,47 @@ static void ble_evt_dispatch(ble_evt_t * p_ble_evt);
  */
 void app_error_handler(uint32_t error_code, uint32_t line_num, const uint8_t * p_file_name)
 {
-    // This call can be used for debug purposes during development of an application.
-    // @note CAUTION: Activating this code will write the stack to flash on an error.
-    //                This function should NOT be used in a final product.
-    //                It is intended STRICTLY for development/debugging purposes.
-    //                The flash write will happen EVEN if the radio is active, thus interrupting
-    //                any communication.
-    //                Use with care. Un-comment the line below to use.
-    // ble_debug_assert_handler(error_code, line_num, p_file_name);
+    // Copying parameters to static variables because parameters are not accessible in debugger.
+    static volatile uint8_t  s_file_name[128];
+    static volatile uint16_t s_line_num;
+    static volatile uint32_t s_error_code;
 
-    // On assert, the system can only recover with a reset.
-    NVIC_SystemReset();
+    strcpy((char *)s_file_name, (const char *)p_file_name);
+    s_line_num   = line_num;
+    s_error_code = error_code;
+    UNUSED_VARIABLE(s_file_name);
+    UNUSED_VARIABLE(s_line_num);
+    UNUSED_VARIABLE(s_error_code);    
+
+    for (;;)
+    {
+        // Loop forever. On assert, the system can only recover on reset.
+    }
 }
 
 
 /**@brief Assert macro callback function.
  *
- * @details This function will be called in case of an assert in the SoftDevice.
- *
- * @warning This handler is an example only and does not fit a final product. You need to analyze 
- *          how your product is supposed to react in case of Assert.
- * @warning On assert from the SoftDevice, the system can only recover on reset.
+ * @details This function will be called if the ASSERT macro fails.
  *
  * @param[in]   line_num   Line number of the failing ASSERT call.
  * @param[in]   file_name  File name of the failing ASSERT call.
  */
-void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
+void assert_nrf_callback(uint16_t line_num, const uint8_t * file_name)
 {
-    app_error_handler(DEAD_BEEF, line_num, p_file_name);
+    // Copying parameters to static variables because parameters are not accessible in debugger
+    static volatile uint8_t  s_file_name[128];
+    static volatile uint16_t s_line_num;
+
+    strcpy((char *)s_file_name, (const char *)file_name);
+    s_line_num = line_num;
+    UNUSED_VARIABLE(s_file_name);
+    UNUSED_VARIABLE(s_line_num);
+
+    for (;;)
+    {
+        // Loop forever. On assert, the system can only recover on reset
+    }
 }
 
 
@@ -526,8 +532,8 @@ static void buttons_init(void)
     // the buttons.
     static app_button_cfg_t buttons[] =
     {
-        {HR_INC_BUTTON_PIN_NO, false, NRF_GPIO_PIN_PULLUP, button_event_handler},
-        {HR_DEC_BUTTON_PIN_NO, false, NRF_GPIO_PIN_PULLUP, button_event_handler}  // Note: This pin is also BONDMNGR_DELETE_BUTTON_PIN_NO
+        {HR_INC_BUTTON_PIN_NO, false, NRF_GPIO_PIN_NOPULL, button_event_handler},
+        {HR_DEC_BUTTON_PIN_NO, false, NRF_GPIO_PIN_NOPULL, button_event_handler}  // Note: This pin is also BONDMNGR_DELETE_BUTTON_PIN_NO
     };
     
     APP_BUTTON_INIT(buttons, sizeof(buttons) / sizeof(buttons[0]), BUTTON_DETECTION_DELAY, false);

@@ -22,25 +22,27 @@
 
 
 // Made static to avoid the error_log to go on the stack.
-static ble_error_log_data_t   m_ble_error_log;            /**< . */
-static volatile uint8_t       m_ble_log_clear_flag = 0;   /**< Volatile flag to be used for clearing the flash in debug mode. */
-//lint -esym(526,__Vectors)
-extern uint32_t             * __Vectors;                  /**< The initialization vector holds the address to __initial_sp that will be used when fetching the stack. */
+static ble_error_log_data_t m_ble_error_log;
+static volatile uint8_t     m_ble_log_clear_flag = 0;
 
 
 static void fetch_stack(ble_error_log_data_t * error_log)
 {
     uint32_t * p_stack;
-    uint32_t * initial_sp;
+    uint32_t   initial_sp;
     uint32_t   length;
+  
+    initial_sp = *((uint32_t*) ROM_ADDRESS_START);
+    
+	#if defined   (  __GNUC__  )
+		p_stack = (uint32_t*) ROM_ADDRESS_START;
+	#else
+		p_stack    =   (uint32_t*) __current_sp();
+	#endif
 
-    initial_sp = (uint32_t *) __Vectors;
-    p_stack    = (uint32_t *) __current_sp();
-
-    length = ((uint32_t) initial_sp) - ((uint32_t) p_stack);
-    memcpy(error_log->stack_info,
-           p_stack,
-           (length > STACK_DUMP_LENGTH) ? STACK_DUMP_LENGTH : length);
+  
+    length = initial_sp - (uint32_t) p_stack;
+    memcpy(error_log->stack_info, p_stack, length > STACK_DUMP_LENGTH ? STACK_DUMP_LENGTH : length);
 }
 
 

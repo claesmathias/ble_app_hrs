@@ -26,9 +26,9 @@
  *          Use the USE_SCHEDULER parameter of the APP_BUTTON_INIT() macro to select if the
  *          @ref app_scheduler is to be used or not.
  *
- * @note    The app_button module uses the app_timer module. The user must ensure that the queue in
- *          app_timer is large enough to hold the app_timer_stop() / app_timer_start() operations
- *          which will be executed on each event from GPIOTE module (2 operations), as well as other
+ * @note    The app_button module relies on app_timer. The user must ensure that the buffer in 
+ *          app_timer is large enough to holds the app_timer_stop() / app_timer_start() operations
+ *          that will be executed on each event from GPIOTE module (2 operations), as well as other
  *          app_timer operations queued simoultanously in the application.
  *
  * @note    Even if the scheduler is not used, app_button.h will include app_scheduler.h, so when

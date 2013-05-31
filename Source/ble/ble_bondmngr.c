@@ -25,14 +25,15 @@
 #include "ble_flash.h"
 #include "ble_bondmngr_cfg.h"
 
+
 #define CCCD_SIZE                  6                                                           /**< Number of bytes needed for storing the state of one CCCD. */
 #define CRC_SIZE                   2                                                           /**< Size of CRC in sys_attribute data. */
 #define SYS_ATTR_BUFFER_MAX_LEN    (((BLE_BONDMNGR_CCCD_COUNT + 1) * CCCD_SIZE) + CRC_SIZE)    /**< Size of sys_attribute data. */
-#define MAX_NUM_MASTER_WHITE_LIST  MIN(BLE_BONDMNGR_MAX_BONDED_MASTERS, 8)                     /**< Maximum number of whitelisted masters supported.*/
+#define MAX_NUM_MASTER_WHITE_LIST  MIN(BLE_BONDMNGR_MAX_BONDED_MASTERS, 8)
 
 #define MAX_BONDS_IN_FLASH  (BLE_FLASH_PAGE_SIZE / (sizeof(master_bond_t) + sizeof(uint32_t))) /**< Maximum number of bonds that can fit into one flash page. */
 
-/**@brief This structure contains the Bonding Information for one master.
+/**@brief Structure for holding bonding information for one master.
  */
 typedef struct
 {
@@ -44,7 +45,7 @@ typedef struct
 
 STATIC_ASSERT(sizeof(master_bond_t) % 4 == 0);
 
-/**@brief This structure contains the System Attributes information related to one master.
+/**@brief Structure for holding system attribute information for one master.
  */
 typedef struct
 {
@@ -55,8 +56,7 @@ typedef struct
 
 STATIC_ASSERT(sizeof(master_sys_attr_t) % 4 == 0);
 
-/**@brief This structure contains the Bonding Information and System Attributes related to one
- *        master.
+/**@brief Structure for holding data for one master.
  */
 typedef struct
 {
@@ -64,7 +64,7 @@ typedef struct
     master_sys_attr_t sys_attr;                                           /**< System attribute information. */
 } master_t;
 
-/**@brief This structure contains the whitelisted addresses.
+/**@brief Structure for holding whitelist address data.
  */
 typedef struct
 {
@@ -72,7 +72,7 @@ typedef struct
     ble_gap_addr_t * p_addr;                                              /**< Pointer to the master's address if BLE_GAP_ADDR_TYPE_PUBLIC. */
 } whitelist_addr_t;
 
-/**@brief This structure contains the whitelisted IRKs.
+/**@brief Structure for holding whitelist IRK data.
  */
 typedef struct
 {
@@ -86,20 +86,19 @@ static uint16_t            m_conn_handle;                                 /**< C
 static master_t            m_master;                                      /**< Current master data. */
 static master_t            m_masters_db[BLE_BONDMNGR_MAX_BONDED_MASTERS]; /**< Pointer to start of bonded masters database. */
 static uint8_t             m_masters_in_db_count;                         /**< Number of bonded masters. */
-static whitelist_addr_t    m_whitelist_addr[MAX_NUM_MASTER_WHITE_LIST];   /**< List of master's addresses  for the whitelist. */
-static whitelist_irk_t     m_whitelist_irk[MAX_NUM_MASTER_WHITE_LIST];    /**< List of master's IRKs  for the whitelist. */
-static uint8_t             m_addr_count;                                  /**< Number of addresses in the whitelist. */
-static uint8_t             m_irk_count;                                   /**< Number of IRKs in the whitelist. */
-static uint16_t            m_crc_bond_info;                               /**< Combined CRC for all Bonding Information currently stored in flash. */
-static uint16_t            m_crc_sys_attr;                                /**< Combined CRC for all System Attributes currently stored in flash. */
-static uint32_t *          mp_flash_bond_info;                            /**< Pointer to flash location to write next Bonding Information. */
+static whitelist_addr_t    m_whitelist_addr[MAX_NUM_MASTER_WHITE_LIST];   /**< List of master's addresses  for the white list. */
+static whitelist_irk_t     m_whitelist_irk[MAX_NUM_MASTER_WHITE_LIST];    /**< List of master's irks  for the white list. */
+static uint8_t             m_addr_count;                                  /**< Number of addresses in the white list. */
+static uint8_t             m_irk_count;                                   /**< Number of irks in the white list. */
+static uint16_t            m_crc_bond_info;                               /**< Combined CRC for all bonding information currently stored in flash. */
+static uint16_t            m_crc_sys_attr;                                /**< Combined CRC for all system attributes currently stored in flash. */
+static uint32_t *          mp_flash_bond_info;                            /**< Pointer to flash location to write next bonding information. */
 static uint32_t *          mp_flash_sys_attr;                             /**< Pointer to flash location to write next System Attribute information. */
-static uint8_t             m_bond_info_in_flash_count;                    /**< Number of Bonding Information currently stored in flash. */
-static uint8_t             m_sys_attr_in_flash_count;                     /**< Number of System Attributes currently stored in flash. */
+static uint8_t             m_bond_info_in_flash_count;                    /**< Number of bonding information currently stored in flash. */
+static uint8_t             m_sys_attr_in_flash_count;                     /**< Number of System Attributes ccurrently stored in flash. */
  
 
-/**@brief      This function extracts the CRC from an encoded 32 bit number that typical resides in
- *             the flash memory
+/**@brief Extract CRC from flash header word.
  *
  * @param[in]  header   Header containing CRC and magic number.
  * @param[out] p_crc    Extracted CRC.
@@ -127,7 +126,7 @@ static uint32_t crc_extract(uint32_t header, uint16_t * p_crc)
 }
 
 
-/**@brief      This function stores the Bonding Information of the specified master to the flash.
+/**@brief Store bonding info for specified master to flash.
  *
  * @param[in]  p_bond   Bonding information to be stored.
  *
@@ -157,7 +156,7 @@ static uint32_t bond_info_store(master_bond_t * p_bond)
         }
     }
     
-    // Write Bonding Information
+    // Write bonding information
     err_code = ble_flash_block_write(mp_flash_bond_info + 1,
                                      (uint32_t *)p_bond,
                                      sizeof(master_bond_t) / sizeof(uint32_t));
@@ -184,9 +183,9 @@ static uint32_t bond_info_store(master_bond_t * p_bond)
 }
 
 
-/**@brief      This function stores in flash the System Attributes related to a specified master.
+/**@brief Store system attribute info of specified master to flash.
  *
- * @param[in]  p_sys_attr   System Attributes to be stored.
+ * @param[in]  p_sys_attr   System attribute to be stored.
  *
  * @return     NRF_SUCCESS on success, an error_code otherwise.
  */
@@ -194,19 +193,19 @@ static uint32_t sys_attr_store(master_sys_attr_t * p_sys_attr)
 {
     uint32_t err_code;
 
-    // Check if flash is full.
+    // Check if flash is full
     if (m_sys_attr_in_flash_count >= MAX_BONDS_IN_FLASH)
     {
         return NRF_ERROR_NO_MEM;
     }
 
-    // Check if this is the first time any System Attributes is stored.
+    // Check if this is the first syste attribute to be stored
     if (m_sys_attr_in_flash_count == 0)
     {
         // Initialize CRC
         m_crc_sys_attr = ble_flash_crc16_compute(NULL, 0, NULL);
     
-        // Find pointer to start of System Attributes flash block.
+        // Find pointer to start of system attribute flash block
         err_code = ble_flash_page_addr(m_bondmngr_config.flash_page_num_sys_attr, 
                                        &mp_flash_sys_attr);
         if (err_code != NRF_SUCCESS)
@@ -215,7 +214,7 @@ static uint32_t sys_attr_store(master_sys_attr_t * p_sys_attr)
         }
     }
     
-    // Write System Attributes in flash.
+    // Write system attribute information in flash
     err_code = ble_flash_block_write(mp_flash_sys_attr + 1,
                                     (uint32_t *)p_sys_attr,
                                     sizeof(master_sys_attr_t) / sizeof(uint32_t));
@@ -242,9 +241,9 @@ static uint32_t sys_attr_store(master_sys_attr_t * p_sys_attr)
 }
 
 
-/**@brief      This function loads the Bonding Information of one master from flash.
+/**@brief Load bonding information for one master from flash.
  *
- * @param[out] p_bond   Loaded Bonding Information.
+ * @param[out] p_bond   Loaded bonding information.
  *
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
@@ -297,9 +296,9 @@ static uint32_t bonding_info_load_from_flash(master_bond_t * p_bond)
 
 
 
-/**@brief      This function loads the System Attributes related to one master from flash.
+/**@brief Load system attribute information for one master from flash.
  *
- * @param[out] p_sys_attr   Loaded System Attributes.
+ * @param[out] p_sys_attr   Loaded system attribute information.
  *
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
@@ -308,14 +307,14 @@ static uint32_t sys_attr_load_from_flash(master_sys_attr_t * p_sys_attr)
     uint32_t err_code;
     uint16_t crc_header;
 
-    // Check if this is the first time System Attributes is loaded from flash, in which case the
-    // m_sys_attr_in_flash_count variable would have the initial value 0.
+    // Check if this is the first system attribute to be loaded, in which case the 
+    // m_sys_attr_in_flash_count variable would have the intial value 0.
     if (m_sys_attr_in_flash_count == 0)
     {
         // Initialize CRC
         m_crc_sys_attr = ble_flash_crc16_compute(NULL, 0, NULL);
     
-        // Find pointer to start of System Attributes flash block
+        // Find pointer to start of system attribute flash block
         err_code = ble_flash_page_addr(m_bondmngr_config.flash_page_num_sys_attr, 
                                        &mp_flash_sys_attr);
         if (err_code != NRF_SUCCESS)
@@ -331,7 +330,7 @@ static uint32_t sys_attr_load_from_flash(master_sys_attr_t * p_sys_attr)
         return err_code;
     }
     
-    // Read System Attributes from flash
+    // Read system attribute from flash
     *p_sys_attr = *(master_sys_attr_t *)(mp_flash_sys_attr + 1);
     
     // Check CRC
@@ -352,8 +351,7 @@ static uint32_t sys_attr_load_from_flash(master_sys_attr_t * p_sys_attr)
 }
 
 
-/**@brief      This function erases flash pages that contain Bonding Information and System
- *             Attributes.
+/**@brief Erase flash pages for both bonding information and system attribute information.
  *
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
@@ -377,10 +375,9 @@ static uint32_t flash_pages_erase(void)
 }
 
 
-/**@brief      This function checks if Bonding Information in RAM is different from that in
- *             flash.
+/**@brief Check if bonding information in memory is different from the one in flash.
  *
- * @return     TRUE if Bonding Information in flash and RAM are different, FALSE otherwise.
+ * @return     TRUE if bonding information has changed, FALSE otherwise.
  */
 static bool bond_info_changed(void)
 {
@@ -400,16 +397,16 @@ static bool bond_info_changed(void)
 }
 
 
-/**@brief      This function checks if System Attributes in RAM is different from that in flash.
+/**@brief Check if system attribute information in memory is different from the one in flash.
  *
- * @return     TRUE if System Attributes in flash and RAM are different, FALSE otherwise.
+ * @return     TRUE if system attribute information has changed, FALSE otherwise.
  */
 static bool sys_attr_changed(void)
 {
     int      i;
     uint16_t crc = ble_flash_crc16_compute(NULL, 0, NULL);
     
-    // Compute CRC for all System Attributes in database
+    // Compute CRC for all system attributes in database
     for (i = 0; i < m_masters_in_db_count; i++)
     {
         crc = ble_flash_crc16_compute((uint8_t *)&m_masters_db[i].sys_attr,
@@ -417,15 +414,15 @@ static bool sys_attr_changed(void)
                                       &crc);
     }
     
-    // Compare to CRC of System Attributes in flash with that of the System Attributes in memory.
+    // Compare to CRC of system attributes in flash with that of the system attributes in memory.
     return (crc != m_crc_sys_attr);
 }
 
 
-/**@brief      This function sets the System Attributes for specified master to the SoftDevice, or
- *             clears the System Attributes if master is a previously unknown.
+/**@brief Set system attributes for specified master, or clear system attributes if master has no
+ *        system attributes.
  *
- * @param[in]  p_master   Master for which the System Attributes is to be set.
+ * @param[in]  p_master   Master for which the system attributes is to be set.
  *
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
@@ -446,9 +443,9 @@ static uint32_t master_sys_attr_set(master_t * p_master)
 }
 
 
-/**@brief This function updates the whitelist data structures.
+/**@brief Update white list data structures.
  */
-static void update_whitelist(void)
+static void update_white_list(void)
 {
     int i;
     
@@ -474,12 +471,12 @@ static void update_whitelist(void)
 }
 
 
-/**@brief      This function handles the authentication status event related to a new master.
+/**@brief Event handler for authentication status message from new master.
  *
- * @details    This function adds the new master to the database and stores the master's Bonding
- *             Information to flash. It also notifies the application when the new bond is created,
- *             and sets the System Attributes to prepare the stack for connection with the new
- *             master.
+ * @details This function adds the new master to database. It also stores the master's bonding
+ *          information to flash, and notifies the application that a new bond has been created and
+ *          also prepares the stack for connection with this new master by setting the system
+ *          attributes.
  *
  * @param[in]  p_auth_status   New authentication status.
  *
@@ -503,16 +500,16 @@ static uint32_t on_auth_status_from_new_master(ble_gap_evt_auth_status_t * p_aut
     m_master.bond.master_handle           = m_masters_in_db_count;
     m_masters_db[m_masters_in_db_count++] = m_master;
     
-    update_whitelist();
+    update_white_list();
 
-    // Clear System Attributes
+    // Clear system attribute info
     err_code = sd_ble_gatts_sys_attr_set(m_conn_handle, NULL, 0);
     if (err_code != NRF_SUCCESS)
     {
         return err_code;
     }
     
-    // Write new master's Bonding Information to flash
+    // Write new master's bonding information to flash
     err_code = bond_info_store(&m_master.bond);
     if ((err_code == NRF_ERROR_NO_MEM) && (m_bondmngr_config.evt_handler != NULL))
     {
@@ -520,7 +517,6 @@ static uint32_t on_auth_status_from_new_master(ble_gap_evt_auth_status_t * p_aut
         
         evt.evt_type      = BLE_BONDMNGR_EVT_BOND_FLASH_FULL;
         evt.master_handle = m_master.bond.master_handle;
-        evt.master_id     = m_master.bond.master_id_info.div;
         
         m_bondmngr_config.evt_handler(&evt);
     }
@@ -536,7 +532,6 @@ static uint32_t on_auth_status_from_new_master(ble_gap_evt_auth_status_t * p_aut
         
         evt.evt_type      = BLE_BONDMNGR_EVT_NEW_BOND;
         evt.master_handle = m_master.bond.master_handle;
-        evt.master_id     = m_master.bond.master_id_info.div;
         
         m_bondmngr_config.evt_handler(&evt);
     }
@@ -545,7 +540,7 @@ static uint32_t on_auth_status_from_new_master(ble_gap_evt_auth_status_t * p_aut
 }
 
 
-/**@brief This function updates the current master's entry in the database.
+/**@brief Update the current master's entry in the database.
  */
 static uint32_t master_update(void)
 {
@@ -555,35 +550,32 @@ static uint32_t master_update(void)
     if ((master_handle >= 0) && (master_handle < m_masters_in_db_count))
     {
         m_masters_db[master_handle] = m_master;
-        update_whitelist();
+        update_white_list();
 
         err_code = NRF_SUCCESS;
     }
     else
     {
-        err_code = NRF_ERROR_INTERNAL;
+        err_code = NRF_ERROR_INVALID_PARAM;
     }
 
     return err_code;
 }
 
 
-/**@brief      This function searches for the master in the database of known masters.
+/**@brief Find master corresponding to the specified diversificator.
  *
- * @details    If the master is found, the variable m_master will be populated with all the
- *             information (Bonding Information and System Attributes) related to that master.
- *
- * @param[in]  master_id   Master Identifier.
+ * @param[in]  master_div   Diversificator to search for.
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
-static uint32_t master_find_in_db(uint16_t master_id)
+static uint32_t master_find_in_db(uint16_t master_div)
 {
     int i;
     
     m_master.bond.master_handle = INVALID_MASTER_HANDLE;
     for (i = 0; i < m_masters_in_db_count; i++)
     {
-        if (master_id == m_masters_db[i].bond.master_id_info.div)
+        if (master_div == m_masters_db[i].bond.master_id_info.div)
         {
             m_master = m_masters_db[i];
             return NRF_SUCCESS;
@@ -594,7 +586,7 @@ static uint32_t master_find_in_db(uint16_t master_id)
 }
 
 
-/**@brief      This function loads all Bonding Information and System Attributes from flash.
+/**@brief Load bonding information and system attribute information from flash.
  *
  * @return     NRF_SUCCESS on success, otherwise an error code.
  */
@@ -611,7 +603,7 @@ static uint32_t load_all_from_flash(void)
         master_bond_t master_bond_info;
         int           master_handle;
         
-        // Load Bonding Information
+        // Load bonding information
         err_code = bonding_info_load_from_flash(&master_bond_info);
         if (err_code == NRF_ERROR_NOT_FOUND)
         {
@@ -631,11 +623,11 @@ static uint32_t load_all_from_flash(void)
         }
         else
         {
-            // Add/update Bonding Information in master array.
+            // Add/update bonding information in master array
             m_masters_db[master_handle].bond = master_bond_info;
             if (master_handle == m_masters_in_db_count)
             {
-                // New master handle, clear System Attributes.
+                // New master handle, clear system attribute information
                 m_masters_db[master_handle].sys_attr.sys_attr_size = 0;
                 m_masters_db[master_handle].sys_attr.master_handle = INVALID_MASTER_HANDLE;
                 m_masters_in_db_count++;
@@ -647,16 +639,16 @@ static uint32_t load_all_from_flash(void)
         }
     }
 
-    // Load System Attributes for all previously known masters.
+    // Load system attribute information for all previously known masters.
     for (i = 0; i < m_masters_in_db_count; i++)
     {
         master_sys_attr_t master_sys_attr;
         
-        // Load System Attributes.
+        // Load system attribute information
         err_code = sys_attr_load_from_flash(&master_sys_attr);
         if (err_code == NRF_ERROR_NOT_FOUND)
         {
-            // No more System Attributes in flash
+            // No more system attributes in flash
             break;
         }
         else if (err_code != NRF_SUCCESS)
@@ -671,7 +663,7 @@ static uint32_t load_all_from_flash(void)
         }
         else
         {
-            // Add/update Bonding Information in master array
+            // Add/update bonding information in master array
             m_masters_db[master_sys_attr.master_handle].sys_attr = master_sys_attr;
         }
     }
@@ -684,14 +676,14 @@ static uint32_t load_all_from_flash(void)
         m_masters_db[i].sys_attr.master_handle = INVALID_MASTER_HANDLE;
     }
     
-    // Update whitelist data structures
-    update_whitelist();
+    // Update write list data structures
+    update_white_list();
     
     return NRF_SUCCESS;
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_sec_levels_t are equal.
+/**@brief Check if two ble_gap_sec_levels_t variables are equal.
  *
  * @param[in]  p_sec_levels_1   Variable 1.
  * @param[in]  p_sec_levels_2   Variable 2.
@@ -707,7 +699,7 @@ static bool sec_levels_equal(ble_gap_sec_levels_t * p_sec_levels_1,
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_sec_keys_t are equal.
+/**@brief Check if two ble_gap_sec_keys_t variables are equal.
  *
  * @param[in]  p_sec_keys_1   Variable 1.
  * @param[in]  p_sec_keys_2   Variable 2.
@@ -725,7 +717,7 @@ static bool sec_keys_equal(ble_gap_sec_keys_t * p_sec_keys_1,
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_enc_info_t are equal.
+/**@brief Check if two ble_gap_enc_info_t variables are equal.
  *
  * @param[in]  p_enc_info_1   Variable 1.
  * @param[in]  p_enc_info_2   Variable 2.
@@ -742,7 +734,7 @@ static bool enc_info_equal(ble_gap_enc_info_t * p_enc_info_1,
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_irk_t are equal.
+/**@brief Check if two ble_gap_irk_t variables are equal.
  *
  * @param[in]  p_irk_1   Variable 1.
  * @param[in]  p_irk_2   Variable 2.
@@ -756,7 +748,7 @@ static bool irk_equal(ble_gap_irk_t * p_irk_1,
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_addr_t are equal.
+/**@brief Check if two ble_gap_addr_t variables are equal.
  *
  * @param[in]  p_addr_1   Variable 1.
  * @param[in]  p_addr_2   Variable 2.
@@ -771,7 +763,7 @@ static bool addr_equal(ble_gap_addr_t * p_addr_1,
 }
 
 
-/**@brief      This function checks if two variables of type ble_gap_evt_auth_status_t are equal.
+/**@brief Check if two ble_gap_evt_auth_status_t variables are equal.
  *
  * @param[in]  p_auth_status_1   Variable 1.
  * @param[in]  p_auth_status_2   Variable 2.
@@ -795,7 +787,7 @@ static bool auth_status_equal(ble_gap_evt_auth_status_t * p_auth_status_1,
 }
 
 
-/**@brief      This function handles the connected event received from the BLE stack.
+/**@brief Connect event handler.
  *
  * @param[in]  p_ble_evt   Event received from the BLE stack.
  */
@@ -827,7 +819,7 @@ static void on_connect(ble_evt_t * p_ble_evt)
         
         for (i = 0; i < m_addr_count; i++)
         {
-            ble_gap_addr_t * p_cur_addr = m_whitelist_addr[i].p_addr;
+            ble_gap_addr_t *p_cur_addr = m_whitelist_addr[i].p_addr;
             
             if (memcmp(p_cur_addr->addr, m_master.bond.master_addr.addr, BLE_GAP_ADDR_LEN) == 0)
             {
@@ -851,7 +843,6 @@ static void on_connect(ble_evt_t * p_ble_evt)
             
             evt.evt_type      = BLE_BONDMNGR_EVT_CONN_TO_BONDED_MASTER;
             evt.master_handle = m_master.bond.master_handle;
-            evt.master_id     = m_master.bond.master_id_info.div;
             
             m_bondmngr_config.evt_handler(&evt);
         }
@@ -859,8 +850,7 @@ static void on_connect(ble_evt_t * p_ble_evt)
 }
 
 
-/**@brief      This function handles the 'System Attributes Missing' event received from the
- *             SoftDevice.
+/**@brief System Attributes Missing event handler.
  *
  * @param[in]  p_ble_evt   Event received from the BLE stack.
  */
@@ -876,8 +866,8 @@ static void on_sys_attr_missing(ble_evt_t * p_ble_evt)
     {
         // Current master is valid, use its data. Set the corresponding sys_attr.
         err_code = master_sys_attr_set(&m_master);
+        
     }
-
     if (err_code != NRF_SUCCESS)
     {
         m_bondmngr_config.error_handler(err_code);
@@ -885,11 +875,9 @@ static void on_sys_attr_missing(ble_evt_t * p_ble_evt)
 }
 
 
-/**@brief      This function handles the new authentication status event, received from the
- *             SoftDevice, related to an already bonded master.
+/**@brief Update authentication status for current master.
  *
- * @details    This function also writes the updated Bonding Information to flash and notifies the
- *             application.
+ * @details Also writes the updated bonding information to flash, and notifies the application.
  *
  * @param[in]  p_auth_status   Updated authentication status.
  */
@@ -899,11 +887,11 @@ static void auth_status_update(ble_gap_evt_auth_status_t * p_auth_status)
     {
         uint32_t err_code;
 
-        // Authentication status changed, update Bonding Information
+        // Authentication status changed, update bonding information
         m_master.bond.auth_status        = *p_auth_status;
         m_master.bond.master_id_info.div = p_auth_status->periph_keys.enc_info.div;
         
-        // Write updated Bonding Information to flash
+        // Write updated bonding information to flash
         err_code = bond_info_store(&m_master.bond);
         if ((err_code == NRF_ERROR_NO_MEM) && (m_bondmngr_config.evt_handler != NULL))
         {
@@ -911,7 +899,6 @@ static void auth_status_update(ble_gap_evt_auth_status_t * p_auth_status)
             
             evt.evt_type      = BLE_BONDMNGR_EVT_BOND_FLASH_FULL;
             evt.master_handle = m_master.bond.master_handle;
-            evt.master_id     = m_master.bond.master_id_info.div;
             
             m_bondmngr_config.evt_handler(&evt);
         }
@@ -927,7 +914,6 @@ static void auth_status_update(ble_gap_evt_auth_status_t * p_auth_status)
         
             evt.evt_type      = BLE_BONDMNGR_EVT_AUTH_STATUS_UPDATED;
             evt.master_handle = m_master.bond.master_handle;
-            evt.master_id     = m_master.bond.master_id_info.div;
             
             m_bondmngr_config.evt_handler(&evt);
         }
@@ -935,7 +921,7 @@ static void auth_status_update(ble_gap_evt_auth_status_t * p_auth_status)
 }
 
 
-/**@brief      This function handles the Authentication Status event received from the BLE stack.
+/**@brief Authentication Status event handler.
  *
  * @param[in]  p_ble_evt   Event received from the BLE stack.
  */
@@ -978,7 +964,7 @@ static void on_auth_status(ble_gap_evt_auth_status_t * p_auth_status)
 }
 
 
-/**@brief      This function handles the Security Info Request event received from the BLE stack.
+/**@brief Security Info Request event handler.
  *
  * @param[in]  p_ble_evt   Event received from the BLE stack.
  */
@@ -993,8 +979,8 @@ static void on_sec_info_request(ble_evt_t * p_ble_evt)
     {
         // Master found in the list of bonded master. Use the encryption info for this master.
         err_code = sd_ble_gap_sec_info_reply(m_conn_handle, 
-                                             &m_master.bond.auth_status.periph_keys.enc_info,
-                                             NULL);
+                                          &m_master.bond.auth_status.periph_keys.enc_info, 
+                                          NULL);
         if (err_code != NRF_SUCCESS)
         {
             m_bondmngr_config.error_handler(err_code);
@@ -1023,8 +1009,7 @@ static void on_sec_info_request(ble_evt_t * p_ble_evt)
 }
 
 
-/**@brief      This function handles the Connection Security Update event received from the BLE
- *             stack.
+/**@brief Connection Security Update event handler.
  *
  * @param[in]  p_ble_evt   Event received from the BLE stack.
  */
@@ -1042,7 +1027,6 @@ static void on_sec_update(ble_gap_evt_conn_sec_update_t * p_sec_update)
             
             evt.evt_type      = BLE_BONDMNGR_EVT_ENCRYPTED;
             evt.master_handle = m_master.bond.master_handle;
-            evt.master_id     = m_master.bond.master_id_info.div;
             
             m_bondmngr_config.evt_handler(&evt);
         }
@@ -1106,8 +1090,8 @@ uint32_t ble_bondmngr_bonded_masters_store(void)
         uint16_t sys_attr_size = SYS_ATTR_BUFFER_MAX_LEN;
         
         err_code = sd_ble_gatts_sys_attr_get(m_conn_handle,
-                                             m_master.sys_attr.sys_attr,
-                                             &sys_attr_size);
+                                          m_master.sys_attr.sys_attr,
+                                          &sys_attr_size); 
         if (err_code != NRF_SUCCESS)
         {
             return err_code;
@@ -1124,7 +1108,7 @@ uint32_t ble_bondmngr_bonded_masters_store(void)
         }
     }
 
-    // Save Bonding Information if changed
+    // Save bonding information if changed
     if (bond_info_changed())
     {
         // Erase flash page
@@ -1146,7 +1130,7 @@ uint32_t ble_bondmngr_bonded_masters_store(void)
         }
     }
     
-    // Save System Attributes, if changed
+    // Save system attribute information if changed
     if (sys_attr_changed())
     {
         // Erase flash page
@@ -1156,7 +1140,7 @@ uint32_t ble_bondmngr_bonded_masters_store(void)
             return err_code;
         }
 
-        // Store System Attributes for all masters
+        // Store system attribute information for all masters
         m_sys_attr_in_flash_count = 0;
         for (i = 0; i < m_masters_in_db_count; i++)
         {
@@ -1181,14 +1165,14 @@ uint32_t ble_bondmngr_sys_attr_store(void)
 {
     uint32_t err_code;
       
-    if (m_master.sys_attr.sys_attr_size == 0)
+    if (m_master.sys_attr.sys_attr_size  == 0) 
     {
-        // Connected to new master. So the flash block for System Attributes for this
+        // Connected to new master. ence the flash block for sys attribute information for this
         // master is empty. Hence no erase is needed. 
         
         uint16_t sys_attr_size = SYS_ATTR_BUFFER_MAX_LEN;
         
-        // Fetch System Attributes from stack.
+        // Fetch system attributes from stack.
         err_code = sd_ble_gatts_sys_attr_get(m_conn_handle,
                                              m_master.sys_attr.sys_attr,
                                              &sys_attr_size);
@@ -1201,15 +1185,15 @@ uint32_t ble_bondmngr_sys_attr_store(void)
         m_master.sys_attr.master_handle = m_master.bond.master_handle;
         m_master.sys_attr.sys_attr_size = (uint16_t)sys_attr_size;
         
-        // Copy the System Attributes to database.
+        // Copy the system attribute data to database.
         m_masters_db[m_masters_in_db_count].sys_attr = m_master.sys_attr;        
 
-        // Write new master's System Attributes to flash
+        // Write new master's system attributes to flash
         return (sys_attr_store(&m_master.sys_attr));
     }
     else
     {
-        // Will not write to flash because System Attributes of an old master would already be
+        // Will not write to flash because system attribute info of an old master would already be
         // in flash and so this operation needs a flash erase operation.
         return NRF_ERROR_INVALID_STATE;
     }
@@ -1236,7 +1220,7 @@ uint32_t ble_bondmngr_master_addr_get(int8_t master_handle, ble_gap_addr_t * p_m
     if (
         (master_handle == INVALID_MASTER_HANDLE) ||
         (master_handle >= m_masters_in_db_count) ||
-        (p_master_addr == NULL)                  ||
+        (p_master_addr == NULL) ||
         (m_masters_db[master_handle].bond.auth_status.central_kex.irk)
         )
     {
@@ -1314,136 +1298,6 @@ uint32_t ble_bondmngr_init(ble_bondmngr_init_t * p_init)
     }
 
     m_is_bondmngr_initialized = true;
-
-    return NRF_SUCCESS;
-}
-
-
-uint32_t ble_bondmngr_master_ids_get(uint16_t * p_master_ids, uint16_t * p_length)
-{
-    if (!m_is_bondmngr_initialized)
-    {
-        return NRF_ERROR_INVALID_STATE;
-    }
-
-    if (p_length == NULL)
-    {
-        return NRF_ERROR_NULL;
-    }
-
-    if (*p_length < m_masters_in_db_count)
-    {
-        // Length of the input array is not enough to fit all known master identifiers.
-        return NRF_ERROR_DATA_SIZE;
-    }
-
-    *p_length = m_masters_in_db_count;
-    if (p_master_ids == NULL)
-    {
-        // Only the length field was required to be filled.
-        return NRF_SUCCESS;
-    }
-
-    int i = 0;
-    for (i = 0; i < m_masters_in_db_count; i++)
-    {
-        p_master_ids[i] = m_masters_db[i].bond.master_id_info.div;
-    }
-
-
-    return NRF_SUCCESS;
-}
-
-
-uint32_t ble_bondmngr_bonded_master_delete(uint16_t master_id)
-{
-    if (!m_is_bondmngr_initialized)
-    {
-        return NRF_ERROR_INVALID_STATE;
-    }
-
-    int8_t  master_handle_to_be_deleted = INVALID_MASTER_HANDLE;
-    uint8_t i;
-
-    // Search for the handle of the master.
-    for (i = 0; i < m_masters_in_db_count; i++)
-    {
-        if (m_masters_db[i].bond.master_id_info.div == master_id)
-        {
-            master_handle_to_be_deleted = i;
-            break;
-        }
-    }
-
-    if (master_handle_to_be_deleted == INVALID_MASTER_HANDLE)
-    {
-        // Master ID not found.
-        return NRF_ERROR_NOT_FOUND;
-    }
-
-    // Delete the master in RAM.
-    for (i = master_handle_to_be_deleted; i < (m_masters_in_db_count - 1); i++)
-    {
-        // Overwrite the current master entry with the next one.
-        m_masters_db[i] = m_masters_db[i + 1];
-
-        // Decrement the value of handle.
-        m_masters_db[i].bond.master_handle--;
-        m_masters_db[i].sys_attr.master_handle--;
-    }
-
-    // Clear the last database entry.
-    memset(&(m_masters_db[m_masters_in_db_count - 1]), 0, sizeof(master_t));
-
-    m_masters_in_db_count--;
-
-    uint32_t err_code;
-
-    // Reinitialize the pointers to the memory where bonding info and System Attributes are stored
-    // in flash.
-    err_code = ble_flash_page_addr(m_bondmngr_config.flash_page_num_bond, &mp_flash_bond_info);
-    if (err_code != NRF_SUCCESS)
-    {
-        return err_code;
-    }
-
-    err_code = ble_flash_page_addr(m_bondmngr_config.flash_page_num_sys_attr, &mp_flash_sys_attr);
-    if (err_code != NRF_SUCCESS)
-    {
-        return err_code;
-    }
-
-    // Refresh the data in the flash memory (both Bonding Information and System Attributes).
-    // Erase and rewrite bonding info and System Attributes.
-
-    err_code = flash_pages_erase();
-    if (err_code != NRF_SUCCESS)
-    {
-        return err_code;
-    }
-
-    m_bond_info_in_flash_count    = 0;
-    m_sys_attr_in_flash_count     = 0;
-
-    for (i = 0; i < m_masters_in_db_count; i++)
-    {
-        err_code = bond_info_store(&(m_masters_db[i].bond));
-        if (err_code != NRF_SUCCESS)
-        {
-            return err_code;
-        }
-    }
-
-    for (i = 0; i < m_masters_in_db_count; i++)
-    {
-        err_code = sys_attr_store(&(m_masters_db[i].sys_attr));
-        if (err_code != NRF_SUCCESS)
-        {
-            return err_code;
-        }
-    }
-
-    update_whitelist();
 
     return NRF_SUCCESS;
 }

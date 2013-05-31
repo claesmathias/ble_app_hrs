@@ -6,7 +6,7 @@
  *
  */
 /**
-  @addtogroup BLE_GATTC Generic Attribute Profile (GATT) Client
+  @addtogroup BLE_GATTC Generic Attribute Profile (GATT) Client.
   @{
   @brief  Definitions and prototypes for the GATT Client interface.
  */
@@ -21,7 +21,7 @@
 
 
 /**@brief GATTC API SVC numbers. */
-enum BLE_GATTC_SVCS
+enum
 {
   SD_BLE_GATTC_PRIMARY_SERVICES_DISCOVER = BLE_GATTC_SVC_BASE, /**< Primary Service Discovery. */
   SD_BLE_GATTC_RELATIONSHIPS_DISCOVER,                         /**< Relationship Discovery. */
@@ -34,18 +34,13 @@ enum BLE_GATTC_SVCS
   SD_BLE_GATTC_HV_CONFIRM                                      /**< Handle Value Confirmation. */
 };
 
-/** @addtogroup BLE_GATTC_DEFINES Defines
- * @{ */
-
-/** @defgroup BLE_ERRORS_GATTC SVC return values specific to GATTC
+/** @defgroup BLE_ERRORS_GATTC SVC return values specific to GATTC.
  * @{ */
 #define BLE_ERROR_GATTC_PROC_NOT_PERMITTED    (NRF_GATTC_ERR_BASE + 0x000)
 /** @} */
 
 /**@brief Last Attribute Handle. */
 #define BLE_GATTC_HANDLE_END                0xFFFF
-
-/** @} */
 
 /**@brief Operation Handle Range. */
 typedef struct
@@ -104,7 +99,7 @@ typedef struct
 /**
  * @brief GATT Client Event IDs.
  */
-enum BLE_GATTC_EVTS
+enum
 {
   BLE_GATTC_EVT_PRIM_SRVC_DISC_RSP = BLE_GATTC_EVT_BASE,  /**< Primary Service Discovery Response event.  */
   BLE_GATTC_EVT_REL_DISC_RSP,                             /**< Relationship Discovery Response event. */
@@ -159,7 +154,7 @@ typedef struct
 typedef struct
 {
   uint16_t                  count;            /**< Handle-Value Pair Count. */
-  uint16_t                  value_len;        /**< Length of the value in Handle-Value(s) list. */
+  uint16_t                  value_len;        /**< Length of the value in Handle-Value(s) list */
   ble_gattc_handle_value_t  handle_value[1];  /**< Handle-Value(s) list, variable length. */
 } ble_gattc_evt_char_val_by_uuid_read_rsp_t;
 
@@ -207,7 +202,7 @@ typedef struct
 typedef struct
 {
   uint16_t            conn_handle;                /**< Connection Handle on which event occured. */
-  uint16_t            gatt_status;                /**< GATT status code for the operation, see @ref BLE_GATT_STATUS_CODES. */
+  uint16_t            gatt_status;                /**< GATT status code for the operation, see @ref BLE_GATT_STATUS_CODES */
   union
   {
     ble_gattc_evt_prim_srvc_disc_rsp_t          prim_srvc_disc_rsp;         /**< Primary Service Discovery Response Event Parameters. */
@@ -224,7 +219,7 @@ typedef struct
 } ble_gattc_evt_t;
 
 
-/**@brief Initiate or continue a GATT Primary Service Discovery procedure.
+/**@brief Initiate a GATT Primary Service Discovery procedure.
  *
  * @details This function initiates a Primary Service discovery, starting from the supplied handle. 
  *          If the last service has not been reached, this must be called again with an updated start handle value to continue the search.
@@ -236,15 +231,15 @@ typedef struct
  * @param[in] start_handle Handle to start searching from.
  * @param[in] p_srvc_uuid Pointer to the service UUID to be found. If it is NULL, all primary services will be returned.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Primary Service Discovery procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_PARAM Invalid parameter(s) supplied.
  * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
  */
 SVCALL(SD_BLE_GATTC_PRIMARY_SERVICES_DISCOVER, uint32_t, sd_ble_gattc_primary_services_discover(uint16_t conn_handle, uint16_t start_handle, ble_uuid_t const * const p_srvc_uuid));
 
 
-/**@brief Initiate or continue a GATT Relationship Discovery procedure.
+/**@brief Initiate a GATT Relationship Discovery procedure.
  *
  * @details This function initiates the Find Included Services sub-procedure. If the last included service has not been reached,
  *          this must be called again with an updated handle range to continue the search.
@@ -252,16 +247,16 @@ SVCALL(SD_BLE_GATTC_PRIMARY_SERVICES_DISCOVER, uint32_t, sd_ble_gattc_primary_se
  * @param[in] conn_handle The connection handle identifying the connection to perform this procedure on.
  * @param[in] p_handle_range A pointer to the range of handles of the Service to perform this procedure on.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Relationship Discovery procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
  * @return @ref NRF_ERROR_INVALID_PARAM Invalid parameter(s) supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_RELATIONSHIPS_DISCOVER, uint32_t, sd_ble_gattc_relationships_discover(uint16_t conn_handle, ble_gattc_handle_range_t const * const p_handle_range));
 
 
-/**@brief Initiate or continue a GATT Characteristic Discovery procedure.
+/**@brief Initiate a GATT Characteristic Discovery procedure.
  *
  * @details This function initiates a Characteristic discovery procedure. If the last Characteristic has not been reached,
  *          this must be called again with an updated handle range to continue the discovery.
@@ -272,15 +267,15 @@ SVCALL(SD_BLE_GATTC_RELATIONSHIPS_DISCOVER, uint32_t, sd_ble_gattc_relationships
  * @param[in] conn_handle The connection handle identifying the connection to perform this procedure on.
  * @param[in] p_handle_range A pointer to the range of handles of the Service to perform this procedure on.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Characteristic Discovery procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_CHARACTERISTICS_DISCOVER, uint32_t, sd_ble_gattc_characteristics_discover(uint16_t conn_handle, ble_gattc_handle_range_t const * const p_handle_range));
 
 
-/**@brief Initiate or continue a GATT Characteristic Descriptor Discovery procedure.
+/**@brief Initiate a GATT Characteristic Descriptor Discovery procedure.
  *
  * @details This function initiates the Characteristic Descriptor discovery procedure. If the last Descriptor has not been reached,
  *          this must be called again with an updated handle range to continue the discovery.
@@ -288,15 +283,15 @@ SVCALL(SD_BLE_GATTC_CHARACTERISTICS_DISCOVER, uint32_t, sd_ble_gattc_characteris
  * @param[in] conn_handle The connection handle identifying the connection to perform this procedure on.
  * @param[in] p_handle_range A pointer to the range of handles of the Characteristic to perform this procedure on.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Descriptor Discovery procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_DESCRIPTORS_DISCOVER, uint32_t, sd_ble_gattc_descriptors_discover(uint16_t conn_handle, ble_gattc_handle_range_t const * const p_handle_range));
 
 
-/**@brief Initiate or continue a GATT Read using Characteristic UUID procedure.
+/**@brief Initiate a GATT Read using Characteristic UUID procedure.
  *
  * @details This function initiates the Read using Characteristic UUID procedure. If the last Characteristic has not been reached,
  *          this must be called again with an updated handle range to continue the discovery.
@@ -305,15 +300,15 @@ SVCALL(SD_BLE_GATTC_DESCRIPTORS_DISCOVER, uint32_t, sd_ble_gattc_descriptors_dis
  * @param[in] p_uuid Pointer to a Characteristic value UUID to read.
  * @param[in] p_handle_range A pointer to the range of handles to perform this procedure on.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Read using Characteristic UUID procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_CHAR_VALUE_BY_UUID_READ, uint32_t, sd_ble_gattc_char_value_by_uuid_read(uint16_t conn_handle, ble_uuid_t const * const p_uuid, ble_gattc_handle_range_t const * const p_handle_range));
 
 
-/**@brief Initiate or continue a GATT Read (Long) Characteristic or Descriptor procedure.
+/**@brief Initiate a GATT Read (Long) Characteristic or Descriptor procedure.
  *
  * @details This function initiates a GATT Read (Long) Characteristic or Descriptor procedure. If the Characteristic or Descriptor
  *          to be read is longer than GATT_MTU - 1, this function must be called multiple times with appropriate offset to read the 
@@ -323,10 +318,10 @@ SVCALL(SD_BLE_GATTC_CHAR_VALUE_BY_UUID_READ, uint32_t, sd_ble_gattc_char_value_b
  * @param[in] handle The handle of the attribute to be read.
  * @param[in] offset Offset into the attribute value to be read.
  *
- * @return @ref NRF_SUCCESS Successfully started or resumed the Read (Long) procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_READ, uint32_t, sd_ble_gattc_read(uint16_t conn_handle, uint16_t handle, uint16_t offset));
 
@@ -339,10 +334,10 @@ SVCALL(SD_BLE_GATTC_READ, uint32_t, sd_ble_gattc_read(uint16_t conn_handle, uint
  * @param[in] p_handles A pointer to the handle(s) of the attribute(s) to be read.
  * @param[in] handle_count The number of handles in p_handles.
  *
- * @return @ref NRF_SUCCESS Successfully started the Read Multiple Characteristic Values procedure.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
- * @return @ref NRF_ERROR_BUSY Client procedure already in progress.
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_CHAR_VALUES_READ, uint32_t, sd_ble_gattc_char_values_read(uint16_t conn_handle, uint16_t const * const p_handles, uint16_t handle_count));
 
@@ -359,27 +354,25 @@ SVCALL(SD_BLE_GATTC_CHAR_VALUES_READ, uint32_t, sd_ble_gattc_char_values_read(ui
  * @param[in] conn_handle The connection handle identifying the connection to perform this procedure on.
  * @param[in] p_write_params A pointer to a write parameters structure.
  *
- * @return @ref NRF_SUCCESS Successfully started the Write procedure.
+ * @return @ref NRF_SUCCESS Success.
  * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
  * @return @ref NRF_ERROR_INVALID_ADDR Invalid pointer supplied.
  * @return @ref NRF_ERROR_INVALID_PARAM Invalid parameter(s) supplied.
  * @return @ref NRF_ERROR_DATA_SIZE Invalid data size(s) supplied.
  * @return @ref NRF_ERROR_BUSY Procedure already in progress.
- * @return @ref BLE_ERROR_NO_TX_BUFFERS There are no available buffers left.
+ * @return @ref BLE_ERROR_NO_TX_BUFFERS There are no available buffers to send the data
  */
 SVCALL(SD_BLE_GATTC_WRITE, uint32_t, sd_ble_gattc_write(uint16_t conn_handle, ble_gattc_write_params_t const * const p_write_params));
 
 
-/**@brief Send a Handle Value Confirmation to the GATT Server.
+/**@brief Send a Handle Value Confirmation to the server.
  *
  * @param[in] conn_handle The connection handle identifying the connection to perform this procedure on.
  * @param[in] handle The handle of the attribute in the indication.
  *
- * @return @ref NRF_SUCCESS Successfully queued the Handle Value Confirmation for transmission.
- * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle.
- * @return @ref NRF_ERROR_INVALID_STATE No Indication pending to be confirmed.
- * @return @ref BLE_ERROR_INVALID_ATTR_HANDLE Invalid attribute handle.
- * @return @ref BLE_ERROR_NO_TX_BUFFERS There are no available buffers left.
+ * @return @ref NRF_SUCCESS Success.
+ * @return @ref BLE_ERROR_INVALID_CONN_HANDLE Invalid Connection Handle
+ * @return @ref NRF_ERROR_BUSY Client procedure already in progress
  */
 SVCALL(SD_BLE_GATTC_HV_CONFIRM, uint32_t, sd_ble_gattc_hv_confirm(uint16_t conn_handle, uint16_t handle));
 

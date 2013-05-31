@@ -19,27 +19,20 @@
  * @brief UART module implementation.
  *
  * @details The UART module can be used for control of the UART.
- *          The UART module has three modes:
- *          - UART without Hardware Flow Control
- *          - UART with Hardware Flow Control
- *          - UART with Low Power mode, will use Hardware Flow Control and GPIOTE on the CTS line
- *            to power off the UART module in the nRF chip, allowing the nRF to save power.
-
- *          The low power mode will be use RTS/CTS flow control while also use the CTS line as
- *          to enter low power mode.
+ *          It has a low power mode that will be enabled when RTS/CTS flowcontrol is enabled.
  *          The UART peripheral will be turned off whenever the CTS signal from the remote side is
  *          high, and when CTS becomes low (active) the UART peripheral will be enabled.
  *
- *          <b>Asynchronous nature</b>
+ *          <b>Asynchron nature</b>
  *
- *          The UART module will receive bytes from the RXD register when an EVENT_RXDRDY interrupt
- *          has occurred. The byte will be put into the RX FIFO and can be fetched by the
- *          application using @ref app_uart_get. First byte received and placed in the RX FIFO will
+ *          The UART module will recieve bytes from the RXD register when an EVENT_RXDRDY interrupt
+ *          has occured. The byte will be put into the RX FIFO and can be fetched by the 
+ *          application using @ref app_uart_get. First byte recieved and placed in the RX FIFO will 
  *          trigger an APP_UART_DATA_READY event. 
  *
  *          The @ref app_uart_put will place the provided byte in the TX FIFO.
  *          Bytes in the TX FIFO will be written to the TXD register by the app_uart module.
- *          When a byte is successfully transfered an EVENT_TXDRDY interrupt is triggered. The
+ *          When a byte is sucessfully transfered an EVENT_TXDRDY interrupt is triggered. The 
  *          interrupt handler in the app_uart module will fetch the next byte from the FIFO and 
  *          write it to the TXD register. 
  *          The application can call @ref app_uart_put to request transmission of bytes.
@@ -48,19 +41,18 @@
  *
  *          An error flag is set in the UART peripheral in event of an error during data reception. 
  *          The error will be propagated to the application event handler as an 
- *          @ref app_uart_evt_t containing APP_UART_ERROR_SOURCE in the evt_type field. The
+ *          @ref app_uart_evt_t containg APP_UART_ERROR_SOURCE in the evt_type field. The 
  *          data.error_source field will contain the original error source information from the 
  *          UART peripheral register. 
  *
- *          In case the RX FIFO is full when data are received an @ref app_uart_evt_t containing
+ *          In case the RX FIFO is full when data are received an @ref app_uart_evt_t containg 
  *          APP_UART_NRF_ERROR in the evt_type field will be generated and sent to the application.
  *          The event will contain the original error code from the FIFO in the data.error_code 
  *          field.
  *
- *          <b>UART Low Power mode with flow control</b>
+ *          <b>UART with flow control</b>
  *
- *          When UART is configured to use Low Power mode with flow control it will use low power
- *          mode when possible.
+ *          When UART is configured to use flow control it will use low power mode when possible.
  *          The UART peripheral will be de-activated when the CTS signal from the remote side is 
  *          set to inactive state. When CTS is set active by the remote side, the UART peripheral
  *          will be activated.
@@ -75,7 +67,7 @@
  *
  * @image   html uart_state_machine_tx_with_flow_control.png "UART with flow control enabled state machine diagram."
  *
- * @note    When using RTS/CTS flow control the CTS pin will be monitored by the GPIOTE. To register
+ * @note    When using RTS/CTS flowcontrol the CTS pin will be monitored by the GPIOTE. To register
  *          the UART module as a user of app_gpiote run the GPIOTE_INIT(X) macro to initialize
  *          the module with the X number of users. X will be the number of all app_gpiote users of
  *          the whole application.
@@ -98,26 +90,17 @@
 
 #define  UART_PIN_DISCONNECTED  0xFFFFFFFF  /**< Value indicating that no pin is connected to this UART register. */
 
-/**@brief UART Flow Control modes for the peripheral.
- */
-typedef enum
-{
-    APP_UART_FLOW_CONTROL_DISABLED,         /**< UART Hw Flow Control is disabled. */
-    APP_UART_FLOW_CONTROL_ENABLED,          /**< Standard UART Hw Flow Control is enabled. */
-    APP_UART_FLOW_CONTROL_LOW_POWER         /**< Specialized UART Hw Flow Control is used. The Low Power setting allows the nRF51 to Power Off the UART module when CTS is in-active, and re-enabling the UART when the CTS signal becomes active. This allows the nRF51 to safe power by only using the UART module when it is needed by the remote site. */
-} app_uart_flow_control_t;
-
 /**@brief UART communication structure holding configuration settings for the peripheral.
  */
 typedef struct
 {
-    uint8_t                 rx_pin_no;      /**< RX pin number. */
-    uint8_t                 tx_pin_no;      /**< TX pin number. */
-    uint8_t                 rts_pin_no;     /**< RTS pin number, only used if flow control is enabled. */
-    uint8_t                 cts_pin_no;     /**< CTS pin number, only used if flow control is enabled. */
-    app_uart_flow_control_t flow_control;   /**< Flow control setting, if flow control is used, the system will use low power UART mode, based on CTS signal. */
-    bool                    use_parity;     /**< Even parity if TRUE, no parity if FALSE. */
-    uint32_t                baud_rate;      /**< Baud rate configuration. */
+    uint8_t   rx_pin_no;                    /**< RX pin number. */
+    uint8_t   tx_pin_no;                    /**< TX pin number. */
+    uint8_t   rts_pin_no;                   /**< RTS pin number, only used if flow control is enabled. */
+    uint8_t   cts_pin_no;                   /**< CTS pin number, only used if flow control is enabled. */
+    bool      use_hardware_flow_control;    /**< Flow control setting, if flow control is used, the system will use low power UART mode, based on CTS signal. */
+    bool      use_parity;                   /**< Even parity if TRUE, no parity if FALSE. */
+    uint32_t  baud_rate;                    /**< Baud rate configuration. */
 } app_uart_comm_params_t;
 
 /**@brief UART buffer for transmitting/receiving data.
@@ -131,15 +114,6 @@ typedef struct
 } app_uart_buffers_t;
 
 /**@brief Enumeration describing current state of the UART.
- *
- * @details The connection state can be fetched by the application using the function call
- *          @ref app_uart_get_connection_state.
- *          When hardware flow control is used
- *          - APP_UART_CONNECTED:     Communication is ongoing.
- *          - APP_UART_DISCONNECTED:  No communication is ongoing.
- *
- *          When no hardware flow control is used
- *          - APP_UART_CONNECTED:     Always returned as bytes can always be received/transmitted.
  */
 typedef enum
 {
@@ -155,8 +129,8 @@ typedef enum
 typedef enum
 {
     APP_UART_DATA_READY,                    /**< An event indicating that UART data has been received. */
-    APP_UART_FIFO_ERROR,                    /**< An error in the FIFO module used by the app_uart module has occured. The FIFO error code is stored in app_uart_evt_t.data.error_code field. */
-    APP_UART_COMMUNICATION_ERROR            /**< An communication error has occured during reception. The error is stored in app_uart_evt_t.data.error_communication field. */
+    APP_UART_NRF_ERROR,                     /**< An error in the app_uart module has occured. */
+    APP_UART_ERROR_SOURCE                   /**< An error in the peripheral has occured during reception. */
 } app_uart_evt_type_t;
 
 /**@brief Struct containing events from the UART module.
@@ -169,8 +143,8 @@ typedef struct
     app_uart_evt_type_t evt_type;           /**< Type of event. */
     union
     {
-        uint32_t        error_communication;/**< Field used if evt_type is: APP_UART_COMMUNICATION_ERROR. This field contains the value in the ERRORSRC register for the UART peripheral. The UART_ERRORSRC_x defines from @ref nrf51_bitfields.h can be used to parse the error code. See also the nRF51 Series Reference Manual for specification. */
-        uint32_t        error_code;         /**< Field used if evt_type is: NRF_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
+        uint32_t        error_source;       /**< Field used if evt_type is: APP_UART_ERROR_SOURCE. Additional error source if byte recieved was causing an error. This field contains the value in the ERRORSRC register for the UART peripheral. */
+        uint32_t        error_code;         /**< Field used if evt_type is: APP_UART_NRF_ERROR. Additional status/error code if the event was caused by app_uart module. This error code refer to errors defined in nrf_error.h. */
     } data;
 } app_uart_evt_t;
 
@@ -183,7 +157,7 @@ typedef struct
  */
 typedef void (*app_uart_event_handler_t) (app_uart_evt_t * p_app_uart_event);
 
-/**@brief Macro for safe initialization of the UART module in a single user instance.
+/**@brief Macro for safe initialization of the UART module.
  *
  * @param[in]   P_COMM_PARAMS   Pointer to a UART communication structure: app_uart_comm_params_t
  * @param[in]   RX_BUF_SIZE     Size of desired RX buffer, must be a power of 2.
@@ -200,7 +174,6 @@ typedef void (*app_uart_event_handler_t) (app_uart_evt_t * p_app_uart_event);
 #define APP_UART_INIT(P_COMM_PARAMS, RX_BUF_SIZE, TX_BUF_SIZE, EVENT_HANDLER, IRQ_PRIO, ERR_CODE)  \
     do                                                                                             \
     {                                                                                              \
-        uint16_t           APP_UART_UID = 0;                                                       \
         static uint8_t     rx_buf[RX_BUF_SIZE];                                                    \
         static uint8_t     tx_buf[TX_BUF_SIZE];                                                    \
         app_uart_buffers_t buffers;                                                                \
@@ -210,49 +183,34 @@ typedef void (*app_uart_event_handler_t) (app_uart_evt_t * p_app_uart_event);
         buffers.tx_buf      = tx_buf;                                                              \
         buffers.tx_buf_size = sizeof(tx_buf);                                                      \
                                                                                                    \
-        ERR_CODE = app_uart_init(P_COMM_PARAMS, &buffers, EVENT_HANDLER, IRQ_PRIO, &APP_UART_UID); \
+        ERR_CODE = app_uart_init(P_COMM_PARAMS, &buffers, EVENT_HANDLER, IRQ_PRIO);                \
     } while (0)
 
-/**@brief Initialize the UART module. Use this initialization when several instances of the UART
- *        module are needed.
+/**@brief Initialize the UART module.
  *
- * @details This initialization will return a UART user id for the caller. The UART user id must be
- *          used upon re-initialization of the UART or closing of the module for the user.
- *          If single instance usage is needed, the APP_UART_INIT() macro should be used instead.
+ * @note Normally initialization should be done using the APP_UART_INIT() macro, as that will
+ *       allocate the buffers needed by the UART module (including aligning the buffer correctly).
  *
- * @note Normally single instance initialization should be done using the APP_UART_INIT() macro, as
- *       that will allocate the buffers needed by the UART module (including aligning the buffer
- *       correctly).
-
- * @param[in]     p_comm_params     Pin and communication parameters.
- * @param[in]     p_buffers         RX and TX buffers.
- * @param[in]     error_handler     Function to be called in case of an error.
- * @param[in]     app_irq_priority  Interrupt priority level.
- * @param[in,out] p_uart_uid        User id for the UART module. The p_uart_uid must be used if
- *                                  re-initialization and/or closing of the UART module is needed.
- *                                  If the value pointed to by p_uart_uid is zero, this is
- *                                  considdered a first time initialization. Otherwise this is
- *                                  considered a re-initialization for the user with id *p_uart_uid.
+ * @param[in]   p_comm_params     Pin and communication parameters.
+ * @param[in]   p_buffers         RX and TX buffers.
+ * @param[in]   error_handler     Function to be called in case of an error.
+ * @param[in]   app_irq_priority  Interrupt priority level.
  *
  * @retval      NRF_SUCCESS               If successful initialization.
  * @retval      NRF_ERROR_INVALID_LENGTH  If a provided buffer is not a power of two.
  * @retval      NRF_ERROR_NULL            If one of the provided buffers is a NULL pointer.
- *
- * Those errors are propagated by the UART module to the caller upon registration when Hardware Flow
- * Control is enabled. When Hardware Flow Control is not used, those errors cannot occur.
- * @retval      NRF_ERROR_INVALID_STATE   The GPIOTE module is not in a valid state when registering
- *                                        the UART module as a user.
- * @retval      NRF_ERROR_INVALID_PARAM   The UART module provides an invalid callback function when
- *                                        registering the UART module as a user.
- *                                        Or the value pointed to by *p_uart_uid is not a valid
- *                                        GPIOTE number.
- * @retval      NRF_ERROR_NO_MEM          GPIOTE module has reached the maximum number of users.
+ * @retval      NRF_ERROR_INVALID_STATE   If flow control is enabled. The GPIOTE module is not in
+ *                                        a valid state when registering the UART module as a user.
+ * @retval      NRF_ERROR_INVALID_PARAM   If flow control is enabled. The UART module provides an
+ *                                        invalid callback function when registering the UART module
+ *                                        as a user.
+ * @retval      NRF_ERROR_NO_MEM          If flow control is enabled. GPIOTE module has already the
+ *                                        reach the maximum number of users.
  */
 uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
                              app_uart_buffers_t *     p_buffers,
                              app_uart_event_handler_t error_handler,
-                             app_irq_priority_t       irq_priority,
-                             uint16_t *               p_uart_uid);
+                             app_irq_priority_t       irq_priority);
 
 /**@brief Get a byte from the UART.
  *
@@ -306,23 +264,10 @@ uint32_t app_uart_get_connection_state(app_uart_connection_state_t * p_connectio
 
 /**@brief Flush the RX and TX buffers.
  *
- * @retval  NRF_SUCCESS  Flushing completed (Current implementation will always succeed).
+ * @retval      NRF_SUCCESS              Flushing completed.
+ *                                       (Current implementation will always succeed)
  */
 uint32_t app_uart_flush(void);
-
-/**@brief Close the UART module.
- *
- * @details This function will close any on-going UART transmissions and disable itself in the
- *          GPTIO module.
- *
- * @param[in] app_uart_uid  User id for the UART module. The app_uart_uid must be identical to the
- *                          UART id returned on initialization and which is currently in use.
-
- * @retval  NRF_SUCCESS             If successfully closed.
- * @retval  NRF_ERROR_INVALID_PARAM If an invalid user id is provided or the user id differs from
- *                                  the current active user.
- */
-uint32_t app_uart_close(uint16_t app_uart_id);
 
 
 #endif // APP_UART_H__

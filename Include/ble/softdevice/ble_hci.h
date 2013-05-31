@@ -6,15 +6,26 @@
   agreement with Nordic Semiconductor.
  */
 /**
-  @addtogroup BLE_COMMON 
+  @addtogroup BLE_HCI Host-Controller Interface (HCI)
   @{
+  @brief   Definitions for of HCI status codes
+
+  @note
+  Status codes in this file are used as return values and cause codes by GAP SVC interface, 
+  as defined by the GAP standard, and is therefore made available to the application,
+  even though no HCI SVC interface is currently provided.   
+  @par  
+  These codes are used as SVC parameters and in event reports, according to the BLE 
+  standard, with the values used "as is", NOT offset by NRF_HCI_ERR_BASE.
+  @par  
+  The codes are defined in the Bluetooth specification Version 4, Vol. 2, part D
 */
 
 
 #ifndef BLE_HCI_H__
 #define BLE_HCI_H__ 
 
-/** @defgroup BLE_HCI_STATUS_CODES Bluetooth status codes
+/** @defgroup BLE_HCI_STATUS_CODES Status codes specific to HCI
  * @{ */
 
 #define BLE_HCI_STATUS_CODE_SUCCESS                        0x00
@@ -93,4 +104,6 @@
 
 #endif // BLE_HCI_H__
 
-/** @} */
+/**
+  @}
+*/

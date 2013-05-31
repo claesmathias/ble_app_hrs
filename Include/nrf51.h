@@ -6,7 +6,7 @@
  *           nRF51 from Nordic Semiconductor.
  *
  * @version  V2.4B
- * @date     19. March 2013
+ * @date     11. February 2013
  *
  * @note     Generated with SVDConv V2.77p 
  *           from CMSIS SVD File 'nRF51.xml' Version 2.4B,
@@ -1006,6 +1006,9 @@ typedef struct {                                    /*!< UICR Structure         
   __IO uint32_t  XTALFREQ;                          /*!< Reset value for CLOCK XTALFREQ register.                              */
   __I  uint32_t  RESERVED0;
   __I  uint32_t  FWID;                              /*!< Firmware ID.                                                          */
+  __IO uint32_t  AUTOPROTEN;                        /*!< Enable automatic flash area protection.                               */
+  __IO uint32_t  AUTOPROTVALUE0;                    /*!< Auto-loaded register values for PROTENSET0 after reset.               */
+  __IO uint32_t  AUTOPROTVALUE1;                    /*!< Auto-loaded register values for PROTENSET0 after reset.               */
 } NRF_UICR_Type;
 
 
